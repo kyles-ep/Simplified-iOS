@@ -18,3 +18,19 @@ extension String {
     return digestData
   }
 }
+
+@objc extension NSString {
+  @objc public func md5() -> Data? {
+    if let messageData = self.data(using: String.Encoding.utf8.rawValue) {
+      var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+      
+      _ = digestData.withUnsafeMutableBytes { digestBytes in
+        messageData.withUnsafeBytes { messageBytes in
+          CC_MD5(messageBytes, CC_LONG(messageData.count), digestBytes)
+        }
+      }
+      return digestData
+    }
+    return nil
+  }
+}

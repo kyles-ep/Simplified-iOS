@@ -57,10 +57,22 @@
   NSTimeInterval timeoutInterval = 30.0;
   NSTimeInterval activityLabelTimer = 10.0;
   
-  NSURLRequest *const request = [NSURLRequest requestWithURL:self.URL
+  NSString *hash = [[[[self.URL absoluteString] md5] base64EncodedStringUrlSafe] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
+  NSString *usernameKey = [NSString stringWithFormat:@"NYPLCustomAccountUsernameKey_%@", hash];
+  NSString *passwordKey = [NSString stringWithFormat:@"NYPLCustomAccountPasswordKey_%@", hash];
+  NSString *username = [[NYPLKeychain sharedKeychain] objectForKey:usernameKey];
+  NSString *password = [[NYPLKeychain sharedKeychain] objectForKey:passwordKey];
+  
+  NSMutableURLRequest *const request = [NSMutableURLRequest requestWithURL:self.URL
                                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
                                              timeoutInterval:timeoutInterval];
   
+  if (username && password) {
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", username, password];
+    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringUrlSafe]];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+  }
   self.activityIndicatorLabel.hidden = YES;
   [NSTimer scheduledTimerWithTimeInterval: activityLabelTimer target: self
                                  selector: @selector(addActivityIndicatorLabel:) userInfo: nil repeats: NO];

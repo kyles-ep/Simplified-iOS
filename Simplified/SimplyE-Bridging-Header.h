@@ -31,6 +31,7 @@
 #import "NYPLHoldsNavigationController.h"
 #import "NYPLMyBooksDownloadCenter.h"
 #import "NYPLBookLocation.h"
+#import "NYPLBasicAuth.h"
 #if defined(FEATURE_DRM_CONNECTOR)
 #import "ADEPT/NYPLADEPTErrors.h"
 #endif

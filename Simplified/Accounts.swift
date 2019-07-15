@@ -8,6 +8,9 @@ let betaUrl = URL(string: "https://libraryregistry.librarysimplified.org/librari
 let prodUrl = URL(string: "https://libraryregistry.librarysimplified.org/libraries")!
 let betaUrlHash = betaUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
 let prodUrlHash = prodUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
+let userAddedAccountsKey = "userAddedAccounts"
+let customAccountUsernameKey = "NYPLCustomAccountUsernameKey"
+let customAccountPasswordKey = "NYPLCustomAccountPasswordKey"
 
 /**
  Switchboard for fetching data, whether it's from a cache source or fresh from the endpoint.
@@ -19,7 +22,7 @@ let prodUrlHash = prodUrl.absoluteString.md5().base64EncodedStringUrlSafe().trim
  cacheOnly - only fetch from cache, unless `noCache` is specified
  @param completion callback method when this is complete, providing the data or nil if unsuccessful
  */
-func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOptions, completion: @escaping (Data?) -> ()) {
+fileprivate func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOptions, completion: @escaping (Data?) -> ()) {
   if !options.contains(.noCache) {
     let modified = (try? FileManager.default.attributesOfItem(atPath: cacheUrl.path)[.modificationDate]) as? Date
     if let modified = modified, let expiry = Calendar.current.date(byAdding: .day, value: 1, to: modified), expiry > Date() || options.contains(.preferCache) {
@@ -49,6 +52,14 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
   dataTask.resume()
 }
 
+fileprivate func removeBasicAuthCredentialsFromKeychain(url: String) {
+  let hash = url.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
+  let usernameKey = "\(customAccountUsernameKey)_\(hash)"
+  let passwordKey = "\(customAccountPasswordKey)_\(hash)"
+  NYPLKeychain.shared()?.removeObject(forKey: usernameKey)
+  NYPLKeychain.shared()?.removeObject(forKey: passwordKey)
+}
+
 /// Manage the library accounts for the app.
 /// Initialized with JSON.
 @objcMembers final class AccountsManager: NSObject
@@ -67,6 +78,8 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     static let strict_offline: LoadOptions = [.preferCache, .cacheOnly]
   }
 
+  // MARK: Static vars
+  
   static let shared = AccountsManager()
   static let NYPLAccountUUIDs = [
     "urn:uuid:065c0c11-0d0f-42a3-82e4-277b18786949",
@@ -74,23 +87,32 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     "urn:uuid:56906f26-2c9a-4ae9-bd02-552557720b99"
   ]
   
+  // MARK: Class methods
+  
   // For Objective-C classes
   class func sharedInstance() -> AccountsManager {
     return AccountsManager.shared
   }
   
-  let defaults: UserDefaults
-  var accountSet: String
-  var accountSets = [String: [Account]]()
+  // MARK: Member vars
   
+  private var accountSets = [String: [Account]]()
+  private var _accountSet: String
+  private let defaults: UserDefaults
+  private let completionHandlerAccessQueue = DispatchQueue(label: "libraryListCompletionHandlerAccessQueue")
+  private var loadingCompletionHandlers = [String: [(Bool) -> ()]]()
+  
+  // MARK: Properties
+  
+  var accountSet: String {
+    return _accountSet
+  }
   var accountsHaveLoaded: Bool {
     if let accounts = accountSets[accountSet] {
       return !accounts.isEmpty
     }
     return false
   }
-  
-  var loadingCompletionHandlers = [String: [(Bool) -> ()]]()
   
   var currentAccount: Account? {
     get {
@@ -105,10 +127,16 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
   var currentAccountId: String? {
     return defaults.string(forKey: currentAccountIdentifierKey)
   }
+  
+  var userAddedAccounts: [Account] {
+    return accounts(userAddedAccountsKey)
+  }
 
+  // MARK: Methods
+  
   fileprivate override init() {
     self.defaults = UserDefaults.standard
-    self.accountSet = NYPLSettings.shared.useBetaLibraries ? betaUrlHash : prodUrlHash
+    self._accountSet = NYPLSettings.shared.useBetaLibraries ? betaUrlHash : prodUrlHash
     
     super.init()
     
@@ -123,10 +151,10 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     }
     DispatchQueue.main.async {
       self.loadCatalogs(options: .strict_offline, url: NYPLSettings.shared.useBetaLibraries ? prodUrl : betaUrl, completion: { _ in })
+      self.loadUserAddedAccounts()
     }
   }
   
-  let completionHandlerAccessQueue = DispatchQueue(label: "libraryListCompletionHandlerAccessQueue")
   
   // Returns whether loading was happening already
   func addLoadingCompletionHandler(key: String, _ handler: @escaping (Bool) -> ()) -> Bool {
@@ -166,6 +194,33 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     return url
   }
   
+  private func handleAccountChange(account: Account, preferringCache: Bool, completion: @escaping (Bool) -> ()) {
+    account.loadAuthenticationDocument(preferringCache: preferringCache, completion: { (success) in
+      if !success {
+        Log.error(#file, "Failed to load authentication document for current account; a bunch of things likely won't work")
+      }
+      DispatchQueue.main.async {
+        var mainFeed = URL(string: account.catalogUrl ?? "")
+        let resolveFn = {
+          NYPLSettings.shared.accountMainFeedURL = mainFeed
+          UIApplication.shared.delegate?.window??.tintColor = NYPLConfiguration.mainColor()
+          NotificationCenter.default.post(name: NSNotification.Name.NYPLCurrentAccountDidChange, object: nil)
+          completion(true)
+        }
+        if account.details?.needsAgeCheck ?? false {
+          AgeCheck.shared().verifyCurrentAccountAgeRequirement { meetsAgeRequirement in
+            DispatchQueue.main.async {
+              mainFeed = meetsAgeRequirement ? account.details?.coppaOverUrl : account.details?.coppaUnderUrl
+              resolveFn()
+            }
+          }
+        } else {
+          resolveFn()
+        }
+      }
+    })
+  }
+  
   // Take the library list data (either from cache or the internet), load it into self.accounts, and load the auth document for the current account if necessary
   private func loadCatalogs(data: Data, options: LoadOptions, key: String, completion: @escaping (Bool) -> ()) {
     do {
@@ -173,30 +228,7 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
       let hadAccount = self.currentAccount != nil
       self.accountSets[key] = catalogsFeed.catalogs.map { Account(publication: $0) }
       if hadAccount != (self.currentAccount != nil) {
-        self.currentAccount?.loadAuthenticationDocument(preferringCache: options.contains(.preferCache), completion: { (success) in
-          if !success {
-            Log.error(#file, "Failed to load authentication document for current account; a bunch of things likely won't work")
-          }
-          DispatchQueue.main.async {
-            var mainFeed = URL(string: self.currentAccount?.catalogUrl ?? "")
-            let resolveFn = {
-              NYPLSettings.shared.accountMainFeedURL = mainFeed
-              UIApplication.shared.delegate?.window??.tintColor = NYPLConfiguration.mainColor()
-              NotificationCenter.default.post(name: NSNotification.Name.NYPLCurrentAccountDidChange, object: nil)
-              completion(true)
-            }
-            if self.currentAccount?.details?.needsAgeCheck ?? false {
-              AgeCheck.shared().verifyCurrentAccountAgeRequirement { meetsAgeRequirement in
-                DispatchQueue.main.async {
-                  mainFeed = meetsAgeRequirement ? self.currentAccount?.details?.coppaOverUrl : self.currentAccount?.details?.coppaUnderUrl
-                  resolveFn()
-                }
-              }
-            } else {
-              resolveFn()
-            }
-          }
-        })
+        handleAccountChange(account: self.currentAccount!, preferringCache: options.contains(.preferCache), completion: completion)
       } else {
         completion(true)
       }
@@ -231,6 +263,121 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     }
   }
   
+  func loadUserAddedAccounts() {
+    let customAccounts: [String] = (defaults.array(forKey: userAddedAccountsKey) as? [String]) ?? []
+    var dispatchCounter = 0
+    for customAccount in customAccounts {
+      if let customAccountUrl = URL.init(string: customAccount) {
+        let delegate = CustomAccountDelegate.init(url: customAccount, view: nil, prompt: false)
+        let session = URLSession.init(configuration: .default, delegate: delegate, delegateQueue: .main)
+        let request = URLRequest.init(url: customAccountUrl, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 60)
+        let dataTask = session.dataTask(with: request) { (data, response, error) in
+          guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            return
+          }
+          if let feed = NYPLOPDSFeed.init(xml: NYPLXML.init(data: data)) {
+            dispatchCounter += 1
+            DispatchQueue.main.async {
+              dispatchCounter -= 1
+              let account = Account(feed: feed, url: customAccount)
+              if account.uuid == self.currentAccountId {
+                self.handleAccountChange(account: account, preferringCache: true, completion: {_ in })
+              }
+              var accounts = self.accountSets[userAddedAccountsKey] ?? []
+              accounts.append(account)
+              accounts.sort(by: { (a1, a2) -> Bool in
+                return a1.name < a2.name
+              })
+              self.accountSets[userAddedAccountsKey] = accounts
+              if dispatchCounter == 0 {
+                NotificationCenter.default.post(name: NSNotification.Name.NYPLCustomLibraryListDidChange, object: nil)
+              }
+            }
+          }
+        }
+        dataTask.resume()
+      }
+    }
+  }
+  
+  func addCustomAccount(url: String, viewToPresentAuthOn: UIViewController?) {
+    if let accountURL = URL.init(string: url) {
+      let delegate = CustomAccountDelegate.init(url: url, view: viewToPresentAuthOn, prompt: true)
+      let session = URLSession.init(configuration: .default, delegate: delegate, delegateQueue: .main)
+      let request = URLRequest.init(url: accountURL, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 60)
+      let dataTask = session.dataTask(with: request) { (data, responseParam, error) in
+        guard let data = data, let response = responseParam as? HTTPURLResponse, response.statusCode == 200 else {
+          // Remove any potential auth keys that were added during basic auth
+          removeBasicAuthCredentialsFromKeychain(url: url)
+          
+          // Fire off alert
+          let alert = error == nil ?
+            NYPLAlertUtils.alert(title: "Unable to add library", message: "Unable to get a valid response") :
+            NYPLAlertUtils.alert(title: "Unable to add library", message: error!.localizedDescription)
+          NYPLAlertUtils.presentFromViewControllerOrNil(alertController: alert, viewController: viewToPresentAuthOn, animated: true, completion: nil)
+          return
+        }
+        if let feed = NYPLOPDSFeed.init(xml: NYPLXML.init(data: data)) {
+          DispatchQueue.main.async {
+            // Add account to memory
+            let account = Account(feed: feed, url: url)
+            var accounts = self.accountSets[userAddedAccountsKey] ?? []
+            accounts.append(account)
+            accounts.sort(by: { (a1, a2) -> Bool in
+              return a1.name < a2.name
+            })
+            self.accountSets[userAddedAccountsKey] = accounts
+            
+            // Add account to app storage
+            var customAccounts: [String] = (self.defaults.array(forKey: userAddedAccountsKey) as? [String]) ?? []
+            customAccounts.append(url)
+            self.defaults.set(customAccounts, forKey: userAddedAccountsKey)
+            
+            // Notify
+            NotificationCenter.default.post(name: NSNotification.Name.NYPLCustomLibraryListDidChange, object: account)
+          }
+        } else {
+          // Remove any potential auth keys that were added during basic auth
+          removeBasicAuthCredentialsFromKeychain(url: url)
+          
+          // Fire off alert
+          let alert = NYPLAlertUtils.alert(title: "Unable to add library", message: "Could not parse feed")
+          NYPLAlertUtils.presentFromViewControllerOrNil(alertController: alert, viewController: viewToPresentAuthOn, animated: true, completion: nil)
+        }
+      }
+      dataTask.resume()
+    } else {
+      // Fire off alert
+      let alert = NYPLAlertUtils.alert(title: "Invalid URL", message: "\(url) is not a valid URL")
+      NYPLAlertUtils.presentFromViewControllerOrNil(alertController: alert, viewController: viewToPresentAuthOn, animated: true, completion: nil)
+    }
+  }
+  
+  func removeCustomAccount(url: String) {
+    // Remove from memory storage
+    var customAccounts = userAddedAccounts
+    let initialCount = customAccounts.count
+    customAccounts = customAccounts.filter { $0.catalogUrl != url }
+    // Sorting because we don't know if filter is stable; please remove if it is
+    customAccounts.sort(by: { (a1, a2) -> Bool in
+      return a1.name < a2.name
+    })
+    self.accountSets[userAddedAccountsKey] = customAccounts
+    
+    // Remove from app storage
+    var customAccountURLs: [String] = (self.defaults.array(forKey: userAddedAccountsKey) as? [String]) ?? []
+    customAccountURLs = customAccountURLs.filter { $0 != url }
+    self.defaults.set(customAccountURLs, forKey: userAddedAccountsKey)
+    
+    // Remove any potential basic auth credentials from keychain
+    removeBasicAuthCredentialsFromKeychain(url: url)
+    
+    // Notify
+    if initialCount != customAccounts.count {
+      NotificationCenter.default.post(name: NSNotification.Name.NYPLCustomLibraryListDidChange, object: nil)
+    }
+  }
+  
   func account(_ uuid:String) -> Account? {
     // Check primary account set first
     if let accounts = self.accountSets[self.accountSet] {
@@ -256,7 +403,7 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
   }
   
   func updateAccountSetFromSettings() {
-    self.accountSet = NYPLSettings.shared.useBetaLibraries ? betaUrlHash : prodUrlHash
+    self._accountSet = NYPLSettings.shared.useBetaLibraries ? betaUrlHash : prodUrlHash
     if self.accounts().isEmpty {
       loadCatalogs(options: .offline, completion: {_ in })
     }
@@ -505,7 +652,6 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
   }
   
   init(publication: OPDS2Publication) {
-    
     name = publication.metadata.title
     subtitle = publication.metadata.description
     uuid = publication.metadata.id
@@ -523,6 +669,17 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     } else {
       logo = UIImage.init(named: "LibraryLogoMagic")!
     }
+  }
+  
+  init(feed: NYPLOPDSFeed, url: String) {
+    logo = UIImage.init(named: "LibraryLogoMagic")!
+    uuid = feed.identifier ?? url
+    name = feed.title ?? url
+    subtitle = nil
+    supportEmail = nil
+    catalogUrl = url
+    let links: [NYPLOPDSLink] = feed.links as? [NYPLOPDSLink] ?? []
+    authenticationDocumentUrl = links.first(where: { $0.rel == "http://opds-spec.org/auth/document" })?.href?.absoluteString
   }
   
   func loadAuthenticationDocument(preferringCache: Bool, completion: @escaping (Bool) -> ()) {
@@ -576,6 +733,87 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     } else {
       Log.error(#file, "Invalid init parameter for PatronPINKeyboard: \(stringValue ?? "nil")")
       return nil
+    }
+  }
+}
+
+class CustomAccountDelegate : NSObject, URLSessionDelegate, URLSessionTaskDelegate {
+  let url: String
+  let view: UIViewController?
+  let prompt: Bool
+  
+  init(url: String, view: UIViewController?, prompt: Bool) {
+    self.url = url
+    self.view = view
+    self.prompt = prompt
+  }
+  
+  // Session challenge
+  func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+      if let trust = challenge.protectionSpace.serverTrust, prompt {
+        var ptr = UnsafeMutablePointer<SecTrustResultType>.allocate(capacity: 1)
+        SecTrustEvaluate(trust, ptr)
+        if ptr.pointee != SecTrustResultType.proceed && ptr.pointee != SecTrustResultType.unspecified {
+          let alert = UIAlertController.init(title: "Untrusted Endpoint", message: "Could not automatically trust remote host.\nTrust and connect anyway?", preferredStyle: .alert)
+          alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: { (action) in
+            completionHandler(.cancelAuthenticationChallenge, nil)
+          }))
+          alert.addAction(UIAlertAction.init(title: "Trust", style: .default, handler: { (action) in
+            completionHandler(.useCredential, URLCredential(trust: trust))
+          }))
+          NYPLAlertUtils.presentFromViewControllerOrNil(alertController: alert, viewController: view, animated: true, completion: nil)
+          return
+        }
+      }
+      completionHandler(.performDefaultHandling, nil)
+    } else {
+      completionHandler(.performDefaultHandling, nil)
+    }
+  }
+  
+  // Task challenge
+  func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic) {
+      let hash = self.url.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
+      let usernameKey = "\(customAccountUsernameKey)_\(hash)"
+      let passwordKey = "\(customAccountPasswordKey)_\(hash)"
+      if !prompt {
+        if let username = NYPLKeychain.shared()?.object(forKey: usernameKey), let password = NYPLKeychain.shared()?.object(forKey: passwordKey) {
+          let credentials = URLCredential(user: username as! String, password: password as! String, persistence: .none)
+          completionHandler(.useCredential, credentials)
+        } else {
+          completionHandler(.cancelAuthenticationChallenge, nil)
+        }
+      } else {
+        let alert = UIAlertController.init(title: "Auth Required", message: "", preferredStyle: .alert)
+        alert.addTextField { (textfield) in
+          textfield.placeholder = "username"
+        }
+        alert.addTextField { (textfield) in
+          textfield.placeholder = "password"
+          textfield.isSecureTextEntry = true
+        }
+        alert.addAction(UIAlertAction.init(title: "Login", style: .default, handler: { (action) in
+          if let username = alert.textFields![0].text, let password = alert.textFields![1].text {
+            if username.count > 0 {
+              NYPLKeychain.shared()?.setObject(username, forKey: usernameKey)
+              NYPLKeychain.shared()?.setObject(password, forKey: passwordKey)
+              let credentials = URLCredential(user: username, password: password, persistence: .none)
+              completionHandler(.useCredential, credentials)
+              return
+            }
+          }
+          completionHandler(.cancelAuthenticationChallenge, nil)
+        }))
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .default, handler: { (action) in
+          completionHandler(.cancelAuthenticationChallenge, nil)
+        }))
+        NYPLAlertUtils.presentFromViewControllerOrNil(alertController: alert, viewController: view, animated: true, completion: nil)
+        return
+      }
+    } else {
+      completionHandler(.rejectProtectionSpace, nil)
     }
   }
 }

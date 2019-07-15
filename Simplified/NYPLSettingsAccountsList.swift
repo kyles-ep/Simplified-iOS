@@ -8,6 +8,7 @@
       //update NYPLSettings
     }
   }
+  fileprivate var customAccounts: [Account]
   fileprivate var libraryAccounts: [Account]
   fileprivate var userAddedSecondaryAccounts: [String]!
   fileprivate let manager: AccountsManager
@@ -16,6 +17,7 @@
     self.accounts = accounts
     self.manager = AccountsManager.shared
     self.libraryAccounts = manager.accounts()
+    self.customAccounts = manager.userAddedAccounts
 
     super.init(nibName:nil, bundle:nil)
   }
@@ -91,6 +93,7 @@
   
   func catalogChangeHandler() {
     self.libraryAccounts = AccountsManager.shared.accounts()
+    self.customAccounts = AccountsManager.shared.userAddedAccounts
     DispatchQueue.main.async {
       self.updateUI()
     }
@@ -110,6 +113,7 @@
       }
       DispatchQueue.main.async {
         self.libraryAccounts = AccountsManager.shared.accounts()
+        self.customAccounts = AccountsManager.shared.userAddedAccounts
         self.showAddAccountList()
       }
     }
@@ -136,6 +140,19 @@
       } else {
         // Neither library is special so we just go alphabetically.
         return a.name.localizedCaseInsensitiveCompare(b.name) == .orderedAscending
+      }
+    }
+
+    for userAccount in self.customAccounts {
+      if (!userAddedSecondaryAccounts.contains(userAccount.uuid) && userAccount.uuid != manager.currentAccount?.uuid) {
+        alert.addAction(UIAlertAction(title: userAccount.name,
+          style: .default,
+          handler: { action in
+            self.userAddedSecondaryAccounts.append(userAccount.uuid)
+            self.updateSettingsAccountList()
+            self.updateUI()
+            self.tableView.reloadData()
+        }))
       }
     }
 
