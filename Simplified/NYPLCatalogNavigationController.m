@@ -11,7 +11,6 @@
 #import "NYPLHoldsNavigationController.h"
 #import "NYPLSettingsPrimaryTableViewController.h"
 #import "SimplyE-Swift.h"
-#import "NYPLAppDelegate.h"
 #import "NSString+NYPLStringAdditions.h"
 
 #if defined(FEATURE_DRM_CONNECTOR)

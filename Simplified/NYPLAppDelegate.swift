@@ -4,51 +4,20 @@ import NYPLAudiobookToolkit;
 
 fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
 
-class NYPLAppDelegate: UIResponder, UIApplicationDelegate {
+class NYPLAppDelegate: UIResponder {
   // Public members
   var window: UIWindow?
   
   // Private members
-  private var audiobookLifecycleManager: AudiobookLifecycleManager
+  internal var audiobookLifecycleManager: AudiobookLifecycleManager
     
   // Initializer
-  override init() {
-    self.audiobookLifecycleManager = AudiobookLifecycleManager()
+  internal override init() {
+    audiobookLifecycleManager = AudiobookLifecycleManager.init()
     super.init()
   }
 
   // MARK: UIApplicationDelegate
-  
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    // Perform data migrations as early as possible before anything has a chance to access them
-    NYPLKeychainManager.validateKeychain()
-    
-    MigrationManager.migrate()
-    
-    self.audiobookLifecycleManager.didFinishLaunching()
-
-    UIApplication.shared.setMinimumBackgroundFetchInterval(MinimumBackgroundFetchInterval)
-
-    if #available(iOS 10.0, *) {
-      NYPLUserNotifications.init().authorizeIfNeeded()
-    }
-
-    // This is normally not called directly, but we put all programmatic appearance setup in
-    // NYPLConfiguration's class initializer.
-    NYPLConfiguration.initialize()
-
-    NetworkQueue.shared().addObserverForOfflineQueue()
-
-    self.window = UIWindow.init(frame: UIScreen.main.bounds)
-    self.window!.tintColor = NYPLConfiguration.mainColor()
-    self.window!.tintAdjustmentMode = .normal;
-    self.window!.makeKeyAndVisible()
-    self.window!.rootViewController = NYPLRootTabBarController.shared();
-
-    //self.beginCheckingForUpdates()
-
-    return true;
-  }
   
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     var bgTask = UIBackgroundTaskIdentifier.invalid
@@ -104,145 +73,71 @@ class NYPLAppDelegate: UIResponder, UIApplicationDelegate {
       reportErrorForOpenUrl(reason: "Could not parse book from \(entryURL.absoluteString)")
       return false
     }
-    
-    let bookDetailVC = NYPLBookDetailViewController.init(book: book)
-    guard let tbc = self.window?.rootViewController, tbc.selectedViewController.isKindOfClass(UINavigationController.class) else {
-      
+    guard let bookDetailVC = NYPLBookDetailViewController.init(book: book) else {
+      reportErrorForOpenUrl(reason: "Could not instantiate bookDetailVC");
+      return false
+    }
+    guard let tbc = self.window?.rootViewController as? NYPLRootTabBarController, tbc.selectedViewController is UINavigationController else {
+      reportErrorForOpenUrl(reason: "Casted views were not of expected types.");
+      return false
     }
     
-//
-//     NYPLBookDetailViewController *bookDetailVC = [[NYPLBookDetailViewController alloc] initWithBook:book];
-//     NYPLRootTabBarController *tbc = (NYPLRootTabBarController *) self.window.rootViewController;
-//
-//     if (!tbc || ![tbc.selectedViewController isKindOfClass:[UINavigationController class]]) {
-//       NYPLLOG(@"Casted views were not of expected types.");
-//       return NO;
-//     }
-//
-//     [tbc setSelectedIndex:0];
-//
-//     UINavigationController *navFormSheet = (UINavigationController *) tbc.selectedViewController.presentedViewController;
-//     if (tbc.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
-//       [tbc.selectedViewController pushViewController:bookDetailVC animated:YES];
-//     } else if (navFormSheet) {
-//       [navFormSheet pushViewController:bookDetailVC animated:YES];
-//     } else {
-//       UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:bookDetailVC];
-//       navVC.modalPresentationStyle = UIModalPresentationFormSheet;
-//       [tbc.selectedViewController presentViewController:navVC animated:YES completion:nil];
-//     }
-
-     return true;
+    tbc.selectedIndex = 0
+    let navFormSheet = tbc.selectedViewController?.presentedViewController as? UINavigationController
+    
+    if (tbc.traitCollection.horizontalSizeClass == .compact && tbc.selectedViewController is UINavigationController) {
+      (tbc.selectedViewController as! UINavigationController).pushViewController(bookDetailVC, animated:true)
+    } else if (navFormSheet != nil) {
+      navFormSheet!.pushViewController(bookDetailVC, animated: true)
+    } else {
+      let navVC = UINavigationController.init(rootViewController: bookDetailVC)
+      navVC.modalPresentationStyle = .formSheet
+      tbc.selectedViewController?.present(navVC, animated: true, completion: nil)
+    }
+    return true;
   }
-
-// - (BOOL)application:(__unused UIApplication *)app
-//             openURL:(NSURL *)url
-//             options:(__unused NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-// {
-//   // URLs should be a permalink to a feed URL
-//   NSURL *entryURL = [url URLBySwappingForScheme:@"http"];
-//   NSData *data = [NSData dataWithContentsOfURL:entryURL];
-//   NYPLXML *xml = [NYPLXML XMLWithData:data];
-//   NYPLOPDSEntry *entry = [[NYPLOPDSEntry alloc] initWithXML:xml];
   
-//   NYPLBook *book = [NYPLBook bookWithEntry:entry];
-//   if (!book) {
-//     NSString *alertTitle = @"Error Opening Link";
-//     NSString *alertMessage = @"There was an error opening the linked book.";
-//     UIAlertController *alert = [NYPLAlertUtils alertWithTitle:alertTitle message:alertMessage];
-//     [NYPLAlertUtils presentFromViewControllerOrNilWithAlertController:alert viewController:nil animated:YES completion:nil];
-//     NYPLLOG(@"Failed to create book from deep-linked URL.");
-//     return NO;
-//   }
+  func applicationWillResignActive(_ application: UIApplication) {
+    NYPLBookRegistry.shared()?.save()
+    NYPLReaderSettings.shared().save()
+  }
   
-//   NYPLBookDetailViewController *bookDetailVC = [[NYPLBookDetailViewController alloc] initWithBook:book];
-//   NYPLRootTabBarController *tbc = (NYPLRootTabBarController *) self.window.rootViewController;
-
-//   if (!tbc || ![tbc.selectedViewController isKindOfClass:[UINavigationController class]]) {
-//     NYPLLOG(@"Casted views were not of expected types.");
-//     return NO;
-//   }
-
-//   [tbc setSelectedIndex:0];
-
-//   UINavigationController *navFormSheet = (UINavigationController *) tbc.selectedViewController.presentedViewController;
-//   if (tbc.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
-//     [tbc.selectedViewController pushViewController:bookDetailVC animated:YES];
-//   } else if (navFormSheet) {
-//     [navFormSheet pushViewController:bookDetailVC animated:YES];
-//   } else {
-//     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:bookDetailVC];
-//     navVC.modalPresentationStyle = UIModalPresentationFormSheet;
-//     [tbc.selectedViewController presentViewController:navVC animated:YES completion:nil];
-//   }
-
-//   return YES;
-// }
-
-// - (void)applicationWillResignActive:(__attribute__((unused)) UIApplication *)application
-// {
-//   [[NYPLBookRegistry sharedRegistry] save];
-//   [[NYPLReaderSettings sharedSettings] save];
-// }
-
-// - (void)applicationWillTerminate:(__unused UIApplication *)application
-// {
-//   [self.audiobookLifecycleManager willTerminate];
-//   [[NYPLBookRegistry sharedRegistry] save];
-//   [[NYPLReaderSettings sharedSettings] save];
-// }
-
-// - (void)application:(__unused UIApplication *)application
-// handleEventsForBackgroundURLSession:(NSString *const)identifier
-// completionHandler:(void (^const)(void))completionHandler
-// {
-//   [self.audiobookLifecycleManager
-//    handleEventsForBackgroundURLSessionFor:identifier
-//    completionHandler:completionHandler];
-// }
+  func applicationWillTerminate(_ application: UIApplication) {
+    self.audiobookLifecycleManager.willTerminate()
+    NYPLBookRegistry.shared()?.save()
+    NYPLReaderSettings.shared().save()
+  }
+  
+  func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+    self.audiobookLifecycleManager.handleEventsForBackgroundURLSession(for: identifier, completionHandler: completionHandler)
+  }
 
   // MARK: -
   
   func reportErrorForOpenUrl(reason: String) {
-    
+    Log.warn("[application:openUrl]", reason)
   }
-
-// - (void)beginCheckingForUpdates
-// {
-//   [UpdateCheckShim
-//    performUpdateCheckWithURL:[NYPLConfiguration minimumVersionURL]
-//    handler:^(NSString *_Nonnull version, NSURL *_Nonnull updateURL) {
-//      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//        UIAlertController *const alertController =
-//          [UIAlertController
-//           alertControllerWithTitle:NSLocalizedString(@"AppDelegateUpdateRequiredTitle", nil)
-//           message:[NSString stringWithFormat:NSLocalizedString(@"AppDelegateUpdateRequiredMessageFormat", nil), version]
-//           preferredStyle:UIAlertControllerStyleAlert];
-//        [alertController addAction:
-//         [UIAlertAction
-//          actionWithTitle:NSLocalizedString(@"AppDelegateUpdateNow", nil)
-//          style:UIAlertActionStyleDefault
-//          handler:^(__unused UIAlertAction *_Nonnull action) {
-//            [[UIApplication sharedApplication] openURL:updateURL];
-//          }]];
-//        [alertController addAction:
-//         [UIAlertAction
-//          actionWithTitle:NSLocalizedString(@"AppDelegateUpdateRemindMeLater", nil)
-//          style:UIAlertActionStyleCancel
-//          handler:nil]];
-//        [self.window.rootViewController
-//         presentViewController:alertController
-//         animated:YES
-//         completion:^{
-//           // Try again in 24 hours or on next launch, whichever is sooner.
-//           [self performSelector:@selector(beginCheckingForUpdates)
-//                      withObject:nil
-//                      afterDelay:(60 * 60 * 24)];
-//         }];
-//      }];
-//    }];
-// }
-
-// @end
-
+  
+  @objc func beginCheckingForUpdates() {
+    UpdateCheckShim.performUpdateCheckWithURL(NYPLConfiguration.minimumVersionURL!) { (version, updateUrl) in
+      OperationQueue.main.addOperation {
+        let alertController = UIAlertController.init(title: NSLocalizedString("AppDelegateUpdateRequiredTitle", comment: ""),
+                                                     message: String(format: NSLocalizedString("AppDelegateUpdateRequiredMessageFormat", comment: ""), [version]),
+                                                     preferredStyle: .alert)
+        alertController.addAction(UIAlertAction.init(title: NSLocalizedString("AppDelegateUpdateNow", comment: ""),
+                                                     style: .default,
+                                                     handler: { (action) in
+                                                      UIApplication.shared.openURL(updateUrl)
+        }))
+        alertController.addAction(UIAlertAction.init(title: NSLocalizedString("AppDelegateUpdateRemindMeLater", comment: ""),
+                                                     style: .cancel,
+                                                     handler: nil
+        ))
+        self.window?.rootViewController?.present(alertController, animated: true, completion: {
+          // Try again in 24 hours or on next launch, whichever is sooner.
+          self.perform(#selector(self.beginCheckingForUpdates), with: nil, afterDelay: 60.0 * 60.0 * 24.0)
+        })
+      }
+    }
+  }
 }
