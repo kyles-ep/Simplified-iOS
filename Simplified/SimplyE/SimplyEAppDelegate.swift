@@ -24,15 +24,15 @@ class SimplyEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
 
     // This is normally not called directly, but we put all programmatic appearance setup in
     // NYPLConfiguration's class initializer.
-    NYPLConfiguration.initConfig()
+    NYPLConfiguration.initialize()
 
     NetworkQueue.shared().addObserverForOfflineQueue()
 
     self.window = UIWindow.init(frame: UIScreen.main.bounds)
-    self.window!.tintColor = NYPLConfiguration.mainColor
-    self.window!.tintAdjustmentMode = .normal;
+    self.window!.tintColor = NYPLConfiguration.mainColor()
+    self.window!.tintAdjustmentMode = .normal
     self.window!.makeKeyAndVisible()
-    self.window!.rootViewController = NYPLRootTabBarController.shared();
+    self.window!.rootViewController = NYPLRootTabBarController.shared()
 
     self.beginCheckingForUpdates()
 

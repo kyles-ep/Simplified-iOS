@@ -119,7 +119,7 @@ class NYPLAppDelegate: UIResponder {
   }
   
   @objc func beginCheckingForUpdates() {
-    UpdateCheckShim.performUpdateCheckWithURL(NYPLConfiguration.minimumVersionURL!) { (version, updateUrl) in
+    UpdateCheckShim.performUpdateCheckWithURL(NYPLConfiguration.minimumVersionURL()!) { (version, updateUrl) in
       OperationQueue.main.addOperation {
         let alertController = UIAlertController.init(title: NSLocalizedString("AppDelegateUpdateRequiredTitle", comment: ""),
                                                      message: String(format: NSLocalizedString("AppDelegateUpdateRequiredMessageFormat", comment: ""), [version]),
