@@ -20,24 +20,13 @@
 
 - (instancetype)init
 {
-  NYPLMyBooksViewController *viewController =
-  [[NYPLMyBooksViewController alloc] init];
+  NYPLMyBooksViewController *viewController = [[NYPLMyBooksViewController alloc] init];
   
   self = [super initWithRootViewController:viewController];
-  if(!self) return nil;
+  if (!self) return nil;
   
   self.tabBarItem.image = [UIImage imageNamed:@"MyBooks"];
-  
-  
-  viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                                     initWithImage:[UIImage imageNamed:@"Catalog"] style:(UIBarButtonItemStylePlain)
-                                                     target:self
-                                                     action:@selector(switchLibrary)];
-  viewController.navigationItem.leftBarButtonItem.accessibilityLabel = NSLocalizedString(@"AccessibilitySwitchLibrary", nil);
-  viewController.navigationItem.leftBarButtonItem.enabled = YES;
-  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentAccountChanged) name:NSNotification.NYPLCurrentAccountDidChange object:nil];
-
   return self;
 }
 

@@ -10,7 +10,7 @@ NetworkQueue migration is invoked from here, but the logic is self-contained in 
 This is because DB-related operations should likely be scoped to that file in the event the DB framework or logic changes,
 that module would know best how to handle changes.
 */ 
-class MigrationManager: NSObject {
+class SimplyEMigrationManager: NSObject {
   @objc static func migrate() {
     // Fetch target version
     let targetVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String

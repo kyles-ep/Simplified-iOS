@@ -1,7 +1,7 @@
 fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
 
 @UIApplicationMain
-class SimplyEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
+class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   override init() {
     super.init()
   }
@@ -12,7 +12,7 @@ class SimplyEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     // Perform data migrations as early as possible before anything has a chance to access them
     NYPLKeychainManager.validateKeychain()
     
-    MigrationManager.migrate()
+    SimplyEMigrationManager.migrate()
     
     self.audiobookLifecycleManager.didFinishLaunching()
 

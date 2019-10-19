@@ -67,7 +67,17 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setTabViewControllers
+- (void)setTabViewControllers {
+  if (![NSThread isMainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self setTabViewControllersInternal];
+    });
+  } else {
+    [self setTabViewControllersInternal];
+  }
+}
+
+- (void)setTabViewControllersInternal
 {
   Account *const currentAccount = [AccountsManager shared].currentAccount;
   if (currentAccount.details.supportsReservations) {
@@ -81,6 +91,26 @@
                              self.settingsSplitViewController];
     [self setSelectedIndex:0];
   }
+}
+
+- (void)setCatalogNavController:(NYPLCatalogNavigationController*)controller {
+  _catalogNavigationController = controller;
+  [self setTabViewControllers];
+}
+
+- (void)setMyBooksNavController:(NYPLMyBooksNavigationController*)controller {
+  _myBooksNavigationController = controller;
+  [self setTabViewControllers];
+}
+
+- (void)setHoldsNavController:(NYPLHoldsNavigationController*)controller {
+  _holdsNavigationController = controller;
+  [self setTabViewControllers];
+}
+
+- (void)setSettingsSplitViewController:(NYPLSettingsSplitViewController*)controller {
+  _settingsSplitViewController = controller;
+  [self setTabViewControllers];
 }
 
 #pragma mark - UITabBarControllerDelegate

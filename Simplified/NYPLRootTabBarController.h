@@ -1,3 +1,8 @@
+@class NYPLCatalogNavigationController;
+@class NYPLMyBooksNavigationController;
+@class NYPLHoldsNavigationController;
+@class NYPLSettingsSplitViewController;
+
 @interface NYPLRootTabBarController : UITabBarController
 
 + (id)new NS_UNAVAILABLE;
@@ -19,5 +24,10 @@
 /// by the underlying tab bar controller.
 - (void)pushViewController:(UIViewController *const)viewController
                   animated:(BOOL const)animated;
+
+- (void)setCatalogNavController:(NYPLCatalogNavigationController*)controller;
+- (void)setMyBooksNavController:(NYPLMyBooksNavigationController*)controller;
+- (void)setHoldsNavController:(NYPLHoldsNavigationController*)controller;
+- (void)setSettingsSplitViewController:(NYPLSettingsSplitViewController*)controller;
 
 @end

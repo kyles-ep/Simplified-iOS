@@ -17,13 +17,6 @@
 #import <ADEPT/ADEPT.h>
 #endif
 
-@interface NYPLCatalogNavigationController()
-
-@property (nonatomic) NYPLCatalogFeedViewController *const viewController;
-
-@end
-
-
 @implementation NYPLCatalogNavigationController
 
 /// Replaces the current view controllers on the navigation stack with a single
