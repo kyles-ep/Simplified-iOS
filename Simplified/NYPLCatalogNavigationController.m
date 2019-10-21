@@ -23,22 +23,10 @@
 /// view controller pointed at the current catalog URL.
 - (void)loadTopLevelCatalogViewController
 {
-  self.viewController = [[NYPLCatalogFeedViewController alloc]
-                         initWithURL:[NYPLSettings sharedSettings].accountMainFeedURL];
-  
+  self.viewController = [[NYPLCatalogFeedViewController alloc] initWithURL:[NYPLSettings sharedSettings].accountMainFeedURL];
   self.viewController.title = NSLocalizedString(@"Catalog", nil);
   self.viewController.navigationItem.title = [AccountsManager shared].currentAccount.name;
-  
-  // The top-level view controller uses the same image used for the tab bar in place of the usual
-  // title text.
-  self.viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                                          initWithImage:[UIImage imageNamed:@"Catalog"] style:(UIBarButtonItemStylePlain)
-                                                          target:self
-                                                          action:@selector(switchLibrary)];
-  self.viewController.navigationItem.leftBarButtonItem.accessibilityLabel = NSLocalizedString(@"AccessibilitySwitchLibrary", nil);
-  
   self.viewController.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Catalog", nil) style:UIBarButtonItemStylePlain target:nil action:nil];
-  
   self.viewControllers = @[self.viewController];
 }
 

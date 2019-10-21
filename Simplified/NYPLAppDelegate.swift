@@ -4,9 +4,9 @@ import NYPLAudiobookToolkit;
 
 fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
 
-class NYPLAppDelegate: UIResponder {
+@objcMembers class NYPLAppDelegate: UIResponder {
   // Public members
-  var window: UIWindow?
+  public var window: UIWindow?
   
   // Private members
   internal var audiobookLifecycleManager: AudiobookLifecycleManager
@@ -46,7 +46,7 @@ class NYPLAppDelegate: UIResponder {
     }
   }
   
-  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+  @objc(application:openURL:options:) func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
      // URLs should be a permalink to a feed URL
     guard var components = URLComponents.init(url: url, resolvingAgainstBaseURL: false) else {
       reportErrorForOpenUrl(reason: "Could not parse url \(url.absoluteString)")

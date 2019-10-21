@@ -1,4 +1,4 @@
-class SEMyBooksNavigationController : NYPLMyBooksNavigationController {
+class SEHoldsNavigationController : NYPLHoldsNavigationController {
   override init() {
     super.init()
     self.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "Catalog"), style: .plain, target: self, action: #selector(switchLibrary))

@@ -33,6 +33,9 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     self.window!.tintAdjustmentMode = .normal
     self.window!.makeKeyAndVisible()
     self.window!.rootViewController = NYPLRootTabBarController.shared()
+    NYPLRootTabBarController.shared()?.setCatalogNav(SECatalogNavigationController())
+    NYPLRootTabBarController.shared()?.setMyBooksNav(SEMyBooksNavigationController())
+    NYPLRootTabBarController.shared()?.setHoldsNav(SEHoldsNavigationController())
 
     self.beginCheckingForUpdates()
 
