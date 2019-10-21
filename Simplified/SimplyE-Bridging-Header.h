@@ -46,6 +46,7 @@
 #import "NYPLSettingsPrimaryTableViewController.h"
 #import "NYPLCatalogNavigationController.h"
 #import "NYPLHoldsViewController.h"
+#import "NYPLCatalogFeedViewController.h"
 
 #if defined(FEATURE_DRM_CONNECTOR)
 #import "ADEPT/NYPLADEPTErrors.h"

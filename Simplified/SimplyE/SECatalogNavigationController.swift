@@ -9,8 +9,22 @@ class SECatalogNavigationController : NYPLCatalogNavigationController {
       target: self,
       action: #selector(switchLibrary)
     )
-    self.viewController.navigationItem.leftBarButtonItem.accessibilityLabel = NSLocalizedString("AccessibilitySwitchLibrary", "nil")
+    self.viewController.navigationItem.leftBarButtonItem?.accessibilityLabel = NSLocalizedString("AccessibilitySwitchLibrary", comment: "")
   }
   
-  
+  @objc func switchLibrary() {
+    SEUtils.vcSwitchLibrary(context: self) { (account) in
+      NYPLBookRegistry.shared()?.save()
+      account.loadAuthenticationDocument(preferringCache: true) { (success) in
+        DispatchQueue.main.async {
+          if success {
+            AccountsManager.shared.currentAccount = account
+            self.updateFeedAndRegistryOnAccountChange()
+          } else {
+            self.present(UIAlertController.init(title: "", message: "LibraryLoadError", preferredStyle: .alert), animated: true)
+          }
+        }
+      }
+    }
+  }
 }
