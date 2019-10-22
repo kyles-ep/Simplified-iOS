@@ -122,29 +122,27 @@
 {
   [super viewDidLoad];
   NYPLSettings *settings = [NYPLSettings sharedSettings];
-  if (settings.userHasSeenWelcomeScreen == YES) {
-    Account *account = [[AccountsManager sharedInstance] currentAccount];
+  Account *account = [[AccountsManager sharedInstance] currentAccount];
 
-    __block NSURL *mainFeedUrl = [NSURL URLWithString:account.catalogUrl];
-    void (^completion)(void) = ^() {
-      [[NYPLSettings sharedSettings] setAccountMainFeedURL:mainFeedUrl];
-      [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration mainColor];
+  __block NSURL *mainFeedUrl = [NSURL URLWithString:account.catalogUrl];
+  void (^completion)(void) = ^() {
+    [[NYPLSettings sharedSettings] setAccountMainFeedURL:mainFeedUrl];
+    [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration mainColor];
 
-      [[NSNotificationCenter defaultCenter]
-      postNotificationName:NSNotification.NYPLCurrentAccountDidChange
-      object:nil];
-    };
+    [[NSNotificationCenter defaultCenter]
+    postNotificationName:NSNotification.NYPLCurrentAccountDidChange
+    object:nil];
+  };
 
-    if (account.details.needsAgeCheck) {
-      [[AgeCheck shared] verifyCurrentAccountAgeRequirement:^(BOOL isOfAge) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          mainFeedUrl = isOfAge ? account.details.coppaOverUrl : account.details.coppaUnderUrl;
-          completion();
-        });
-      }];
-    } else {
-      completion();
-    }
+  if (account.details.needsAgeCheck) {
+    [[AgeCheck shared] verifyCurrentAccountAgeRequirement:^(BOOL isOfAge) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        mainFeedUrl = isOfAge ? account.details.coppaOverUrl : account.details.coppaUnderUrl;
+        completion();
+      });
+    }];
+  } else {
+    completion();
   }
 }
 
@@ -155,57 +153,6 @@
   if (UIAccessibilityIsVoiceOverRunning()) {
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
   }
-  
-  NYPLSettings *settings = [NYPLSettings sharedSettings];
-  
-  if (settings.userHasSeenWelcomeScreen == NO) {
-    Account *currentAccount = [[AccountsManager sharedInstance] currentAccount];
-
-    __block NSURL *mainFeedUrl = [NSURL URLWithString:currentAccount.catalogUrl];
-    void (^completion)(void) = ^() {
-      [[NYPLSettings sharedSettings] setAccountMainFeedURL:mainFeedUrl];
-      [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration mainColor];
-      
-      NYPLWelcomeScreenViewController *welcomeScreenVC = [[NYPLWelcomeScreenViewController alloc] initWithCompletion:^(Account *const account) {
-        if (![NSThread isMainThread]) {
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [self welcomeScreenCompletionHandlerForAccount:account];
-          });
-        } else {
-          [self welcomeScreenCompletionHandlerForAccount:account];
-        }
-      }];
-
-      UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:welcomeScreenVC];
-
-      if([[NYPLRootTabBarController sharedController] traitCollection].horizontalSizeClass != UIUserInterfaceSizeClassCompact) {
-        [navController setModalPresentationStyle:UIModalPresentationFormSheet];
-      } else {
-        [navController setModalPresentationStyle:UIModalPresentationFullScreen];
-      }
-      [navController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-
-      NYPLRootTabBarController *vc = [NYPLRootTabBarController sharedController];
-      [vc safelyPresentViewController:navController animated:YES completion:nil];
-    };
-    if (currentAccount.details.needsAgeCheck) {
-      [[AgeCheck shared] verifyCurrentAccountAgeRequirement:^(BOOL isOfAge) {
-        mainFeedUrl = isOfAge ? currentAccount.details.coppaOverUrl : currentAccount.details.coppaUnderUrl;
-        completion();
-      }];
-    } else {
-      completion();
-    }
-  }
-}
-
--(void) welcomeScreenCompletionHandlerForAccount:(Account *const)account
-{
-  [[NYPLSettings sharedSettings] setUserHasSeenWelcomeScreen:YES];
-  [[NYPLBookRegistry sharedRegistry] save];
-  [AccountsManager sharedInstance].currentAccount = account;
-  [self updateFeedAndRegistryOnAccountChange];
-  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

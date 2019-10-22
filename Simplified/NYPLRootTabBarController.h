@@ -5,6 +5,8 @@
 
 @interface NYPLRootTabBarController : UITabBarController
 
+@property (nonatomic) NYPLCatalogNavigationController *catalogNavigationController;
+
 + (id)new NS_UNAVAILABLE;
 - (id)init NS_UNAVAILABLE;
 - (id)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;

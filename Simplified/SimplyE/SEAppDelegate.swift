@@ -32,11 +32,17 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     self.window!.tintColor = NYPLConfiguration.mainColor()
     self.window!.tintAdjustmentMode = .normal
     self.window!.makeKeyAndVisible()
-    self.window!.rootViewController = NYPLRootTabBarController.shared()
+    
     NYPLRootTabBarController.shared()?.setCatalogNav(SECatalogNavigationController())
     NYPLRootTabBarController.shared()?.setMyBooksNav(SEMyBooksNavigationController())
     NYPLRootTabBarController.shared()?.setHoldsNav(SEHoldsNavigationController())
-
+    
+    if NYPLSettings.shared.userHasSeenWelcomeScreen {
+      self.window!.rootViewController = NYPLRootTabBarController.shared()
+    } else {
+      self.window!.rootViewController = SETutorialViewController()
+    }
+    
     self.beginCheckingForUpdates()
 
     return true;

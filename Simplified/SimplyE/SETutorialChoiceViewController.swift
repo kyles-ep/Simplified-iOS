@@ -1,10 +1,4 @@
-import UIKit
-import PureLayout
-
-
-/// Welcome screen for a first-time user
-@objcMembers final class NYPLWelcomeScreenViewController: UIViewController {
-  
+class SETutorialChoiceViewController : UIViewController {
   var completion: ((Account) -> ())?
   
   required init(completion: ((Account) -> ())?) {
@@ -184,7 +178,7 @@ import PureLayout
     }
   }
 
-  func pickYourLibraryTapped() {
+  @objc func pickYourLibraryTapped() {
     if completion == nil {
       self.dismiss(animated: true, completion: nil)
       return
@@ -212,7 +206,7 @@ import PureLayout
           })
         }
       }
-      self.navigationController?.pushViewController(listVC, animated: true)
+      self.present(listVC, animated: true, completion: nil)
     }
 
     if AccountsManager.shared.accountsHaveLoaded {
@@ -233,7 +227,7 @@ import PureLayout
     }
   }
 
-  func instantClassicsTapped() {
+  @objc func instantClassicsTapped() {
     let classicsId = AccountsManager.NYPLAccountUUIDs[2]
     var loadingOverlay: UIView? = nil
     
@@ -278,11 +272,9 @@ import PureLayout
   }
 }
 
-
 /// List of available Libraries/Accounts to select as patron's primary
 /// when going through Welcome Screen flow.
 final class NYPLWelcomeScreenAccountList: UIViewController, UITableViewDelegate, UITableViewDataSource {
-  
   var accounts: [Account]!
   var nyplAccounts: [Account]!
   let completion: (Account) -> ()

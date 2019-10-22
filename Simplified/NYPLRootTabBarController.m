@@ -10,7 +10,6 @@
 
 @interface NYPLRootTabBarController () <UITabBarControllerDelegate>
 
-@property (nonatomic) NYPLCatalogNavigationController *catalogNavigationController;
 @property (nonatomic) NYPLMyBooksNavigationController *myBooksNavigationController;
 @property (nonatomic) NYPLHoldsNavigationController *holdsNavigationController;
 @property (nonatomic) NYPLSettingsSplitViewController *settingsSplitViewController;
