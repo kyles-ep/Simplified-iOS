@@ -4,6 +4,9 @@
 
 #import "NYPLConfiguration.h"
 
+// Additions
+#import "UIView+NYPLViewAdditions.h"
+
 // Models
 #import "NYPLBook.h"
 #import "NYPLAccount.h"

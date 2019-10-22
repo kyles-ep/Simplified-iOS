@@ -370,6 +370,13 @@
 		8C4399D2235E5E7D00A867E0 /* SEHoldsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4399D1235E5E7D00A867E0 /* SEHoldsNavigationController.swift */; };
 		8C4399FB235E73C800A867E0 /* SETutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4399FA235E73C800A867E0 /* SETutorialViewController.swift */; };
 		8C439A01235E774E00A867E0 /* SETutorialChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A00235E774E00A867E0 /* SETutorialChoiceViewController.swift */; };
+		8C439A08235F85BF00A867E0 /* OEAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A07235F85BF00A867E0 /* OEAppDelegate.swift */; };
+		8C439A0A235F860300A867E0 /* OETutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A09235F860300A867E0 /* OETutorialViewController.swift */; };
+		8C439A0C235F87EE00A867E0 /* OETutorialWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A0B235F87EE00A867E0 /* OETutorialWelcomeViewController.swift */; };
+		8C439A0E235F880100A867E0 /* OETutorialEligibilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A0D235F880100A867E0 /* OETutorialEligibilityViewController.swift */; };
+		8C439A10235F881000A867E0 /* OETutorialChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */; };
+		8C439A12235FA4B500A867E0 /* OEConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A11235FA4B500A867E0 /* OEConfiguration.swift */; };
+		8C439A14235FA63F00A867E0 /* SEConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A13235FA63F00A867E0 /* SEConfiguration.swift */; };
 		8C70C0A7235A6F0200D34736 /* SEMyBooksNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70C0A6235A6F0200D34736 /* SEMyBooksNavigationController.swift */; };
 		8C70C0A9235A83AB00D34736 /* SECatalogNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70C0A8235A83AB00D34736 /* SECatalogNavigationController.swift */; };
 		8C70C0AB235A90F900D34736 /* SEUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70C0AA235A90F900D34736 /* SEUtils.swift */; };
@@ -746,6 +753,13 @@
 		8C4399D1235E5E7D00A867E0 /* SEHoldsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEHoldsNavigationController.swift; sourceTree = "<group>"; };
 		8C4399FA235E73C800A867E0 /* SETutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SETutorialViewController.swift; sourceTree = "<group>"; };
 		8C439A00235E774E00A867E0 /* SETutorialChoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SETutorialChoiceViewController.swift; sourceTree = "<group>"; };
+		8C439A07235F85BF00A867E0 /* OEAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEAppDelegate.swift; sourceTree = "<group>"; };
+		8C439A09235F860300A867E0 /* OETutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OETutorialViewController.swift; sourceTree = "<group>"; };
+		8C439A0B235F87EE00A867E0 /* OETutorialWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OETutorialWelcomeViewController.swift; sourceTree = "<group>"; };
+		8C439A0D235F880100A867E0 /* OETutorialEligibilityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OETutorialEligibilityViewController.swift; sourceTree = "<group>"; };
+		8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OETutorialChoiceViewController.swift; sourceTree = "<group>"; };
+		8C439A11235FA4B500A867E0 /* OEConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEConfiguration.swift; sourceTree = "<group>"; };
+		8C439A13235FA63F00A867E0 /* SEConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConfiguration.swift; sourceTree = "<group>"; };
 		8C70C0A6235A6F0200D34736 /* SEMyBooksNavigationController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SEMyBooksNavigationController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8C70C0A8235A83AB00D34736 /* SECatalogNavigationController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SECatalogNavigationController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8C70C0AA235A90F900D34736 /* SEUtils.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SEUtils.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -1232,6 +1246,7 @@
 				8C4399D1235E5E7D00A867E0 /* SEHoldsNavigationController.swift */,
 				8C4399FA235E73C800A867E0 /* SETutorialViewController.swift */,
 				8C439A00235E774E00A867E0 /* SETutorialChoiceViewController.swift */,
+				8C439A13235FA63F00A867E0 /* SEConfiguration.swift */,
 			);
 			path = SimplyE;
 			sourceTree = "<group>";
@@ -1239,6 +1254,12 @@
 		8CBF10502358EC39006F8433 /* OpenEBooks */ = {
 			isa = PBXGroup;
 			children = (
+				8C439A07235F85BF00A867E0 /* OEAppDelegate.swift */,
+				8C439A09235F860300A867E0 /* OETutorialViewController.swift */,
+				8C439A0B235F87EE00A867E0 /* OETutorialWelcomeViewController.swift */,
+				8C439A0D235F880100A867E0 /* OETutorialEligibilityViewController.swift */,
+				8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */,
+				8C439A11235FA4B500A867E0 /* OEConfiguration.swift */,
 			);
 			path = OpenEBooks;
 			sourceTree = "<group>";
@@ -1895,6 +1916,7 @@
 				8C08E2C3234E93F900335F9D /* OPDS2Publication.swift in Sources */,
 				8C08E2C4234E93F900335F9D /* String+MD5.swift in Sources */,
 				8C08E2C5234E93F900335F9D /* NYPLNetworkQueue.swift in Sources */,
+				8C439A08235F85BF00A867E0 /* OEAppDelegate.swift in Sources */,
 				8C08E2C6234E93F900335F9D /* NYPLMyBooksNavigationController.m in Sources */,
 				8C08E2C7234E93F900335F9D /* NYPLBookCellCollectionViewController.m in Sources */,
 				8C08E2C8234E93F900335F9D /* NYPLXML.m in Sources */,
@@ -1954,8 +1976,10 @@
 				8C08E2FE234E93F900335F9D /* NYPLReaderReadiumView.m in Sources */,
 				8C08E2FF234E93F900335F9D /* NYPLBarcode.swift in Sources */,
 				8C08E300234E93F900335F9D /* NYPLSession.m in Sources */,
+				8C439A0A235F860300A867E0 /* OETutorialViewController.swift in Sources */,
 				8C08E301234E93F900335F9D /* NYPLSettingsEULAViewController.m in Sources */,
 				8C08E302234E93F900335F9D /* NYPLMyBooksDownloadInfo.m in Sources */,
+				8C439A10235F881000A867E0 /* OETutorialChoiceViewController.swift in Sources */,
 				8C08E303234E93F900335F9D /* NYPLBookLocation.m in Sources */,
 				8C08E304234E93F900335F9D /* NYPLFacetView.m in Sources */,
 				8C08E305234E93F900335F9D /* NYPLReaderContainerDelegate.mm in Sources */,
@@ -1975,6 +1999,7 @@
 				8C08E312234E93F900335F9D /* NYPLOPDSIndirectAcquisition.m in Sources */,
 				8C08E313234E93F900335F9D /* NYPLMyBooksViewController.m in Sources */,
 				8C08E314234E93F900335F9D /* NYPLBookDetailTableView.swift in Sources */,
+				8C439A0E235F880100A867E0 /* OETutorialEligibilityViewController.swift in Sources */,
 				8C08E315234E93F900335F9D /* NYPLBookDownloadFailedCell.m in Sources */,
 				8C08E316234E93F900335F9D /* NYPLBookDetailViewController.m in Sources */,
 				8C08E317234E93F900335F9D /* NYPLReaderTOCCell.m in Sources */,
@@ -2002,10 +2027,12 @@
 				8C08E32F234E93F900335F9D /* NYPLPDFViewControllerDelegate.swift in Sources */,
 				8C08E330234E93F900335F9D /* NYPLKeychain.m in Sources */,
 				8C08E331234E93F900335F9D /* NYPLReaderContainerDelegateBase.m in Sources */,
+				8C439A0C235F87EE00A867E0 /* OETutorialWelcomeViewController.swift in Sources */,
 				8C08E332234E93F900335F9D /* NYPLOPDSEntry.m in Sources */,
 				8C08E333234E93F900335F9D /* NYPLReaderSettingsView.m in Sources */,
 				8C08E334234E93F900335F9D /* NYPLIndeterminateProgressView.m in Sources */,
 				8C08E335234E93F900335F9D /* NSString+NYPLStringAdditions.m in Sources */,
+				8C439A12235FA4B500A867E0 /* OEConfiguration.swift in Sources */,
 				8C08E336234E93F900335F9D /* NYPLKeychainManager.swift in Sources */,
 				8C08E337234E93F900335F9D /* NYPLBugsnagLogs.swift in Sources */,
 				8C08E338234E93F900335F9D /* NYPLOPDSEntryGroupAttributes.m in Sources */,
@@ -2058,6 +2085,7 @@
 				111559ED19B8FA590003BE94 /* NYPLXML.m in Sources */,
 				11580AC81986A77B00949A15 /* NYPLBookCell.m in Sources */,
 				085640CE1BB99FC30088BDBF /* NSURL+NYPLURLAdditions.m in Sources */,
+				8C439A14235FA63F00A867E0 /* SEConfiguration.swift in Sources */,
 				1183F35B194F847100DC322F /* NYPLAsync.m in Sources */,
 				11B20E6E19D9F6DD00877A23 /* NYPLReloadView.m in Sources */,
 				E694040A1E4A789800E566ED /* NYPLReachabilityManager.m in Sources */,
