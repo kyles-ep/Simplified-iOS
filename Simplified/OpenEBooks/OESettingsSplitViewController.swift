@@ -1,0 +1,3 @@
+class OESettingsSplitViewController : NYPLSettingsSplitViewController {
+  
+}

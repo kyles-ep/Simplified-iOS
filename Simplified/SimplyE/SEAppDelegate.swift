@@ -9,6 +9,9 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   // MARK: UIApplicationDelegate
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    // Swap superclass shared value with subclass
+    NYPLConfiguration.shared = SEConfiguration.seShared
+    
     // Perform data migrations as early as possible before anything has a chance to access them
     NYPLKeychainManager.validateKeychain()
     
@@ -24,12 +27,12 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
 
     // This is normally not called directly, but we put all programmatic appearance setup in
     // NYPLConfiguration's class initializer.
-    NYPLConfiguration.initialize()
+    NYPLConfiguration.initConfig()
 
     NetworkQueue.shared().addObserverForOfflineQueue()
 
     self.window = UIWindow.init(frame: UIScreen.main.bounds)
-    self.window!.tintColor = NYPLConfiguration.mainColor()
+    self.window!.tintColor = NYPLConfiguration.shared.mainColor
     self.window!.tintAdjustmentMode = .normal
     self.window!.makeKeyAndVisible()
     

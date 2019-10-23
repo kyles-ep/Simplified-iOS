@@ -1,11 +1,30 @@
 class OETutorialChoiceViewController : UIViewController {
-  var completionHandler: ()->Void
+  var completionHandler: (()->Void)?
   
   var descriptionLabel: UILabel
   var enterCodeButton: UIButton
   var loginWithCleverButton: UIButton
   var requestCodesButton: UIButton
   var stackView: UIStackView
+  
+  init() {
+    completionHandler = nil
+    self.descriptionLabel = UILabel.init(frame: CGRect.zero)
+    self.enterCodeButton = UIButton.init(type: .custom)
+    self.loginWithCleverButton = UIButton.init(type: .custom)
+    self.requestCodesButton = UIButton.init(type: .system)
+    self.stackView = UIStackView.init(arrangedSubviews: [
+      self.descriptionLabel,
+      self.enterCodeButton,
+      self.loginWithCleverButton
+    ])
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  @available(*, unavailable)
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: UIViewController
   
@@ -14,34 +33,25 @@ class OETutorialChoiceViewController : UIViewController {
     
     self.title = NSLocalizedString("Log In", comment: "")
     
-    self.descriptionLabel = UILabel.init(frame: CGRect.zero)
     self.descriptionLabel.font = UIFont.systemFont(ofSize: 20.0)
     self.descriptionLabel.text = NSLocalizedString("TutorialChoiceViewControllerDescription", comment: "")
     self.descriptionLabel.textAlignment = .center
     self.descriptionLabel.numberOfLines = 0
     self.descriptionLabel.sizeToFit()
     
-    self.enterCodeButton = UIButton.init(type: .custom)
     self.enterCodeButton.setImage(UIImage.init(named: "FirstbookLoginButton"), for: .normal)
     self.enterCodeButton.addTarget(self, action: #selector(didSelectEnterCodes), for: .touchUpInside)
     self.enterCodeButton.sizeToFit()
     
-    self.loginWithCleverButton = UIButton.init(type: .custom)
     self.loginWithCleverButton.setImage(UIImage.init(named: "CleverLoginButton"), for: .normal)
     self.loginWithCleverButton.addTarget(self, action: #selector(didSelectClever), for: .touchUpInside)
     self.loginWithCleverButton.sizeToFit()
     
-    self.requestCodesButton = UIButton.init(type: .system)
     self.requestCodesButton.titleLabel?.font = UIFont.systemFont(ofSize: 20.0)
     self.requestCodesButton.setTitle(NSLocalizedString("TutorialChoiceRequestCodes", comment: ""), for: .normal)
     self.requestCodesButton.addTarget(self, action: #selector(didSelectRequestCodes), for: .touchUpInside)
     self.requestCodesButton.sizeToFit()
     
-    self.stackView = UIStackView.init(arrangedSubviews: [
-      self.descriptionLabel,
-      self.enterCodeButton,
-      self.loginWithCleverButton
-    ])
     self.stackView.axis = .vertical
     self.stackView.distribution = .equalSpacing
     self.view.addSubview(self.stackView)
@@ -57,99 +67,54 @@ class OETutorialChoiceViewController : UIViewController {
   }
   
   // MARK: -
-  @objc func didSelectEnterCodes() {
+  
+  fileprivate func loginCompletionHandler() {
+    self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
     
+    NYPLSettings.shared.userHasSeenWelcomeScreen = true
+    guard let appDelegate = UIApplication.shared.delegate as? OEAppDelegate else {
+      Log.error("", "Could not load app delegate")
+      return
+    }
+    
+    appDelegate.window?.rootViewController = NYPLRootTabBarController.shared()
+    
+    let oldCompletionHandler = self.completionHandler
+    self.completionHandler = nil
+    oldCompletionHandler?.self()
+  }
+  
+  @objc func didSelectEnterCodes() {
+    NYPLAccount.shared()?.removeBarcodeAndPIN()
+    NYPLAccountSignInViewController.requestCredentials(usingExistingBarcode: false, completionHandler: loginCompletionHandler)
   }
   
   @objc func didSelectClever() {
-    
+    NYPLAccount.shared()?.removeAll()
+    CleverLoginViewController.loginWithCompletionHandler(loginCompletionHandler)
   }
   
   @objc func didSelectRequestCodes() {
-    UIApplication.shared.openURL(OEConfiguration.openEBooksRequestCodesURL)
+    UIApplication.shared.openURL(OEConfiguration.oeShared.openEBooksRequestCodesURL)
+  }
+  
+  class func showLoginPicker(handler: (()->Void)?) {
+    let choiceVC = OETutorialChoiceViewController()
+    choiceVC.completionHandler = handler
+    let cancelBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .cancel, target: choiceVC, action: #selector(didSelectCancel))
+    choiceVC.navigationItem.leftBarButtonItem = cancelBarButtonItem
+    let navVC = UINavigationController.init(rootViewController: choiceVC)
+    navVC.modalPresentationStyle = .formSheet
+    if #available(iOS 13.0, *) {
+      navVC.view.backgroundColor = .systemBackground
+    } else {
+      navVC.view.backgroundColor = .white
+    }
+    OEUtils.safelyPresent(navVC, animated: true, completion: nil)
+  }
+  
+  @objc func didSelectCancel() {
+    self.navigationController?.presentingViewController?.dismiss(animated: true, completion: nil)
   }
 }
-//
-//- (void)didSelectRequestCodes
-//{
-//  [[UIApplication sharedApplication] openURL:[NYPLConfiguration openEBooksRequestCodesURL]];
-//}
-//
-//- (void)didSelectClever
-//{
-//  [[NYPLAccount sharedAccount] removeAll];
-//  [CleverLoginViewController loginWithCompletionHandler:^{
-//
-//    [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//
-//    [NYPLSettings sharedSettings].userFinishedTutorial = YES;
-//    NYPLAppDelegate *const appDelegate = [UIApplication sharedApplication].delegate;
-//    appDelegate.window.rootViewController = [NYPLRootTabBarController sharedController];
-//
-//    void (^handler)() = self.completionHandler;
-//    self.completionHandler = nil;
-//    if(handler) handler();
-//
-//  }];
-//}
-//
-//- (void)didSelectEnterCodes
-//{
-//  [[NYPLAccount sharedAccount] removeBarcodeAndPIN];
-//  [NYPLSettingsLoginViewController
-//   requestCredentialsUsingExistingBarcode:NO
-//   completionHandler:^{
-//
-//     [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-//     [self dismissViewControllerAnimated:YES completion:nil];
-//
-//     [NYPLSettings sharedSettings].userFinishedTutorial = YES;
-//     NYPLAppDelegate *const appDelegate = [UIApplication sharedApplication].delegate;
-//     appDelegate.window.rootViewController = [NYPLRootTabBarController sharedController];
-//
-//     void (^handler)() = self.completionHandler;
-//     self.completionHandler = nil;
-//     if(handler) handler();
-//
-//   }];
-//}
-//
-//+ (void)showLoginPickerWithCompletionHandler:(void (^)())handler
-//{
-//  NYPLTutorialChoiceViewController *const choiceViewController = [[self alloc] init];
-//
-//  choiceViewController.completionHandler = handler;
-//
-//  [choiceViewController view];
-//
-//  UIBarButtonItem *const cancelBarButtonItem =
-//  [[UIBarButtonItem alloc]
-//   initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-//   target:choiceViewController
-//   action:@selector(didSelectCancel)];
-//
-//  choiceViewController.navigationItem.leftBarButtonItem = cancelBarButtonItem;
-//
-//  UIViewController *const viewController = [[UINavigationController alloc]
-//                                            initWithRootViewController:choiceViewController];
-//  viewController.modalPresentationStyle = UIModalPresentationFormSheet;
-//  viewController.view.backgroundColor = [UIColor whiteColor];
-//
-//  [(NYPLAppDelegate *)[UIApplication sharedApplication].delegate
-//   safelyPresentViewController:viewController
-//   animated:YES
-//   completion:nil];
-//
-//}
-//
-//- (void)didSelectCancel
-//{
-//
-//  [self.navigationController.presentingViewController
-//   dismissViewControllerAnimated:YES
-//   completion:nil];
-//}
-//
-//
-//@end

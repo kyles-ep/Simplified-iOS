@@ -1,6 +1,12 @@
-class OETutorialWelcomeViewController : UIViewController{
+class OETutorialWelcomeViewController : UIViewController {
   var descriptionLabel: UILabel
   var logoImageView: UIImageView
+  
+  init() {
+    self.descriptionLabel = UILabel.init(frame: CGRect.zero)
+    self.logoImageView = UIImageView.init(image: UIImage.init(named: "app_launch_screen_image"))
+    super.init(nibName: nil, bundle: nil)
+  }
   
   @available(*, unavailable)
   required init?(coder: NSCoder) {
@@ -18,10 +24,8 @@ class OETutorialWelcomeViewController : UIViewController{
       self.view.backgroundColor = .white
     }
     
-    self.logoImageView = UIImageView.init(image: UIImage.init(named: "app_launch_screen_image"))
     self.view.addSubview(self.logoImageView)
     
-    self.descriptionLabel = UILabel.init(frame: CGRect.zero)
     self.descriptionLabel.font = UIFont.systemFont(ofSize: 20.0)
     self.descriptionLabel.text = NSLocalizedString("TutorialWelcomeViewControllerDescription", comment: "")
     self.descriptionLabel.textAlignment = .center

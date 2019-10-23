@@ -1,5 +1,4 @@
 #import "NYPLCatalogFeedViewController.h"
-#import "NYPLConfiguration.h"
 
 #import "NYPLCatalogNavigationController.h"
 
@@ -87,7 +86,7 @@
   __block NSURL *mainFeedUrl = [NSURL URLWithString:account.catalogUrl];
   void (^completion)(void) = ^() {
     [[NYPLSettings sharedSettings] setAccountMainFeedURL:mainFeedUrl];
-    [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration mainColor];
+    [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration shared].mainColor;
     
     [[NYPLBookRegistry sharedRegistry] justLoad];
     [[NYPLBookRegistry sharedRegistry] syncWithCompletionHandler:^(BOOL __unused success) {
@@ -127,7 +126,7 @@
   __block NSURL *mainFeedUrl = [NSURL URLWithString:account.catalogUrl];
   void (^completion)(void) = ^() {
     [[NYPLSettings sharedSettings] setAccountMainFeedURL:mainFeedUrl];
-    [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration mainColor];
+    [UIApplication sharedApplication].delegate.window.tintColor = [NYPLConfiguration shared].mainColor;
 
     [[NSNotificationCenter defaultCenter]
     postNotificationName:NSNotification.NYPLCurrentAccountDidChange

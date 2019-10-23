@@ -8,7 +8,6 @@
 #import "NYPLBasicAuth.h"
 #import "NYPLBookCoverRegistry.h"
 #import "NYPLBookRegistry.h"
-#import "NYPLConfiguration.h"
 #import "NYPLLinearView.h"
 #import "NYPLMyBooksDownloadCenter.h"
 #import "NYPLReachability.h"
@@ -122,7 +121,7 @@ CGFloat const marginPadding = 2.0;
 {
   [super viewDidLoad];
   
-  self.view.backgroundColor = [NYPLConfiguration backgroundColor];
+  self.view.backgroundColor = [NYPLConfiguration shared].backgroundColor;
   self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
 
   self.currentAccount = [AccountsManager shared].currentAccount;
@@ -395,7 +394,7 @@ didSelectRowAtIndexPath:(NSIndexPath *const)indexPath
 
 - (BOOL)registrationIsPossible
 {
-  return ([NYPLConfiguration cardCreationEnabled] &&
+  return ([NYPLConfiguration shared].cardCreationEnabled &&
           ([[AccountsManager sharedInstance] currentAccount].details.supportsCardCreator || [[AccountsManager sharedInstance] currentAccount].details.cardCreatorUrl) &&
           ![[NYPLAccount sharedAccount] hasBarcodeAndPIN]);
 }
@@ -411,7 +410,7 @@ didSelectRowAtIndexPath:(NSIndexPath *const)indexPath
   regTitle.text = NSLocalizedString(@"SettingsAccountRegistrationTitle", @"Title for registration. Asking the user if they already have a library card.");
   regButton.font = [UIFont customFontForTextStyle:UIFontTextStyleBody];
   regButton.text = NSLocalizedString(@"SignUp", nil);
-  regButton.textColor = [NYPLConfiguration mainColor];
+  regButton.textColor = [NYPLConfiguration shared].mainColor;
 
   [containerView addSubview:regTitle];
   [containerView addSubview:regButton];
@@ -764,7 +763,7 @@ completionHandler:(void (^)(void))handler
   if([[NYPLAccount sharedAccount] hasBarcodeAndPIN]) {
     self.logInSignOutCell.textLabel.text = NSLocalizedString(@"SignOut", nil);
     self.logInSignOutCell.textLabel.textAlignment = NSTextAlignmentCenter;
-    self.logInSignOutCell.textLabel.textColor = [NYPLConfiguration mainColor];
+    self.logInSignOutCell.textLabel.textColor = [NYPLConfiguration shared].mainColor;
     self.logInSignOutCell.userInteractionEnabled = YES;
   } else {
     self.logInSignOutCell.textLabel.text = NSLocalizedString(@"LogIn", nil);
@@ -775,7 +774,7 @@ completionHandler:(void (^)(void))handler
     BOOL const pinIsNotRequired = self.currentAccount.details.pinKeyboard == LoginKeyboardNone;
     if((barcodeHasText && pinHasText) || (barcodeHasText && pinIsNotRequired)) {
       self.logInSignOutCell.userInteractionEnabled = YES;
-      self.logInSignOutCell.textLabel.textColor = [NYPLConfiguration mainColor];
+      self.logInSignOutCell.textLabel.textColor = [NYPLConfiguration shared].mainColor;
     } else {
       self.logInSignOutCell.userInteractionEnabled = NO;
       self.logInSignOutCell.textLabel.textColor = [UIColor lightGrayColor];

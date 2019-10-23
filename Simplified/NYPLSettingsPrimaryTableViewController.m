@@ -1,4 +1,3 @@
-#import "NYPLConfiguration.h"
 #import "SimplyE-Swift.h"
 
 #import "NYPLSettingsPrimaryTableViewController.h"
@@ -84,7 +83,7 @@ NSIndexPath *NYPLSettingsPrimaryTableViewControllerIndexPathFromSettingsItem(
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.view.backgroundColor = [NYPLConfiguration backgroundColor];
+  self.view.backgroundColor = [NYPLConfiguration shared].backgroundColor;
 }
 
 - (void)viewWillAppear:(BOOL)animated

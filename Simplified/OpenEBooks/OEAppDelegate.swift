@@ -1,5 +1,9 @@
 fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
 
+extension Notification.Name {
+  static let NYPLAppDelegateDidReceiveCleverRedirectURL = Notification.Name("NYPLAppDelegateDidReceiveCleverRedirectURL")
+}
+
 @UIApplicationMain
 class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   override init() {
@@ -9,10 +13,7 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   // MARK: UIApplicationDelegate
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    // Perform data migrations as early as possible before anything has a chance to access them
-    NYPLKeychainManager.validateKeychain()
-    
-    SimplyEMigrationManager.migrate()
+    OEMigrationManager.migrate()
     
     self.audiobookLifecycleManager.didFinishLaunching()
 
@@ -24,23 +25,24 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
 
     // This is normally not called directly, but we put all programmatic appearance setup in
     // NYPLConfiguration's class initializer.
-    NYPLConfiguration.initialize()
+    OEConfiguration.initConfig()
 
     NetworkQueue.shared().addObserverForOfflineQueue()
 
     self.window = UIWindow.init(frame: UIScreen.main.bounds)
-    self.window!.tintColor = NYPLConfiguration.mainColor()
+    self.window!.tintColor = NYPLConfiguration.shared.mainColor
     self.window!.tintAdjustmentMode = .normal
     self.window!.makeKeyAndVisible()
     
-    NYPLRootTabBarController.shared()?.setCatalogNav(SECatalogNavigationController())
-    NYPLRootTabBarController.shared()?.setMyBooksNav(SEMyBooksNavigationController())
-    NYPLRootTabBarController.shared()?.setHoldsNav(SEHoldsNavigationController())
+    NYPLRootTabBarController.shared()?.setCatalogNav(OECatalogNavigationController())
+    NYPLRootTabBarController.shared()?.setMyBooksNav(OEMyBooksNavigationController())
+    NYPLRootTabBarController.shared()?.setHoldsNav(OEHoldsNavigationController())
+    NYPLRootTabBarController.shared()?.setSettingsSplitView(OESettingsSplitViewController())
     
     if NYPLSettings.shared.userHasSeenWelcomeScreen {
       self.window!.rootViewController = NYPLRootTabBarController.shared()
     } else {
-      self.window!.rootViewController = SETutorialViewController()
+      self.window!.rootViewController = OETutorialViewController()
     }
     
     self.beginCheckingForUpdates()

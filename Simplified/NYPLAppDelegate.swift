@@ -119,7 +119,7 @@ fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
   }
   
   @objc func beginCheckingForUpdates() {
-    UpdateCheckShim.performUpdateCheckWithURL(NYPLConfiguration.minimumVersionURL()!) { (version, updateUrl) in
+    UpdateCheckShim.performUpdateCheckWithURL(NYPLConfiguration.shared.minimumVersionURL!) { (version, updateUrl) in
       OperationQueue.main.addOperation {
         let alertController = UIAlertController.init(title: NSLocalizedString("AppDelegateUpdateRequiredTitle", comment: ""),
                                                      message: String(format: NSLocalizedString("AppDelegateUpdateRequiredMessageFormat", comment: ""), [version]),

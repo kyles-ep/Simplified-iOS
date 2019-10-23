@@ -23,21 +23,15 @@ class OETutorialViewController : UIPageViewController, UIPageViewControllerDataS
       self.view.backgroundColor = .white
     }
     
-    let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [SETutorialViewController.self])
+    let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [OETutorialViewController.self])
     pageControl.pageIndicatorTintColor = .black
-    pageControl.currentPageIndicatorTintColor = NYPLConfiguration.mainColor()
+    pageControl.currentPageIndicatorTintColor = OEConfiguration.oeShared.mainColor
     pageControl.backgroundColor = .white
     
     self.views = [
-      SETutorialChoiceViewController.init(completion: { (account) in
-        if !Thread.isMainThread {
-          DispatchQueue.main.async {
-            self.welcomeScreenCompletionHandler(account)
-          }
-        } else {
-          self.welcomeScreenCompletionHandler(account)
-        }
-      })
+      OETutorialWelcomeViewController(),
+      OETutorialEligibilityViewController(),
+      OETutorialChoiceViewController()
     ]
     
     self.setViewControllers(self.views, direction: .forward, animated: true, completion: nil)

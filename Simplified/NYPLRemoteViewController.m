@@ -1,4 +1,3 @@
-#import "NYPLConfiguration.h"
 #import "NYPLReloadView.h"
 #import "NYPLRemoteViewController.h"
 
@@ -79,7 +78,7 @@
 {
   [super viewDidLoad];
   
-  self.view.backgroundColor = [NYPLConfiguration backgroundColor];
+  self.view.backgroundColor = [NYPLConfiguration shared].backgroundColor;
   
   self.activityIndicatorView = [[UIActivityIndicatorView alloc]
                                 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

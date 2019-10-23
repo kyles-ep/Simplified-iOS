@@ -14,7 +14,7 @@ class SETutorialChoiceViewController : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.view.backgroundColor = NYPLConfiguration.backgroundColor()
+    self.view.backgroundColor = NYPLConfiguration.shared.backgroundColor
     setupViews()
   }
   
@@ -122,8 +122,8 @@ class SETutorialChoiceViewController : UIViewController {
     let button = UIButton()
     button.setTitle(buttonTitle, for: UIControl.State())
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-    button.setTitleColor(NYPLConfiguration.iconLogoBlueColor(), for: .normal)
-    button.layer.borderColor = NYPLConfiguration.iconLogoGreenColor().cgColor
+    button.setTitleColor(SEConfiguration.seShared.iconLogoBlueColor, for: .normal)
+    button.layer.borderColor = SEConfiguration.seShared.iconLogoGreenColor.cgColor
     button.layer.borderWidth = 2
     button.layer.cornerRadius = 6
 
@@ -305,7 +305,7 @@ final class NYPLWelcomeScreenAccountList: UIViewController, UITableViewDelegate,
     self.accounts = self.accounts.filter { !AccountsManager.NYPLAccountUUIDs.contains($0.uuid) }
 
     self.title = NSLocalizedString("LibraryListTitle", comment: "Title that also informs the user that they should choose a library from the list.")
-    self.view.backgroundColor = NYPLConfiguration.backgroundColor()
+    self.view.backgroundColor = NYPLConfiguration.shared.backgroundColor
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

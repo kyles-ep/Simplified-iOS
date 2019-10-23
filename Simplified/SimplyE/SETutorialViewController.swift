@@ -25,7 +25,7 @@ class SETutorialViewController : UIPageViewController, UIPageViewControllerDataS
     
     let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [SETutorialViewController.self])
     pageControl.pageIndicatorTintColor = .black
-    pageControl.currentPageIndicatorTintColor = NYPLConfiguration.mainColor()
+    pageControl.currentPageIndicatorTintColor = NYPLConfiguration.shared.mainColor
     pageControl.backgroundColor = .white
     
     self.views = [

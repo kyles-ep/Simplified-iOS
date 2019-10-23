@@ -181,7 +181,7 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
             var mainFeed = URL(string: self.currentAccount?.catalogUrl ?? "")
             let resolveFn = {
               NYPLSettings.shared.accountMainFeedURL = mainFeed
-              UIApplication.shared.delegate?.window??.tintColor = NYPLConfiguration.mainColor()
+              UIApplication.shared.delegate?.window??.tintColor = NYPLConfiguration.shared.mainColor
               NotificationCenter.default.post(name: NSNotification.Name.NYPLCurrentAccountDidChange, object: nil)
               completion(true)
             }

@@ -76,7 +76,6 @@
 		1164F106199AC236009BF8BF /* NYPLBookLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1164F105199AC236009BF8BF /* NYPLBookLocation.m */; };
 		116A5EAF194767B200491A21 /* NYPLMyBooksNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 116A5EAE194767B200491A21 /* NYPLMyBooksNavigationController.m */; };
 		116A5EB3194767DC00491A21 /* NYPLMyBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 116A5EB2194767DC00491A21 /* NYPLMyBooksViewController.m */; };
-		116A5EB91947B57500491A21 /* NYPLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 116A5EB81947B57500491A21 /* NYPLConfiguration.m */; };
 		1183F33B194B775900DC322F /* NYPLCatalogLaneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1183F33A194B775900DC322F /* NYPLCatalogLaneCell.m */; };
 		1183F341194F723D00DC322F /* NYPLCatalogLane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1183F340194F723D00DC322F /* NYPLCatalogLane.m */; };
 		1183F347194F744D00DC322F /* NYPLBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 1183F346194F744D00DC322F /* NYPLBook.m */; };
@@ -166,6 +165,10 @@
 		84B7A3471B84E8FE00584FB2 /* OpenDyslexic3-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84B7A3441B84E8FE00584FB2 /* OpenDyslexic3-Bold.ttf */; };
 		84B7A3481B84E8FE00584FB2 /* OpenDyslexic3-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84B7A3451B84E8FE00584FB2 /* OpenDyslexic3-Regular.ttf */; };
 		84FCD2611B7BA79200BFEDD9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FCD2601B7BA79200BFEDD9 /* CoreLocation.framework */; };
+		8C0047CC2360F04500549BA7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C0047C72360F04500549BA7 /* Images.xcassets */; };
+		8C0047CE2360F10700549BA7 /* OpenEBooks_Launch_Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C0047CD2360F10700549BA7 /* OpenEBooks_Launch_Screen.storyboard */; };
+		8C0047D52360FF0200549BA7 /* OEEULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0047D42360FF0200549BA7 /* OEEULAViewController.swift */; };
+		8C0047D72361008E00549BA7 /* OESettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0047D62361008E00549BA7 /* OESettings.swift */; };
 		8C08E2B6234E93F900335F9D /* NYPLCirculationAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66AE32F1DC0FCFC00124AE2 /* NYPLCirculationAnalytics.swift */; };
 		8C08E2B7234E93F900335F9D /* UpdateCheckShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC8D9DD1D09F9B4007DD125 /* UpdateCheckShim.swift */; };
 		8C08E2B8234E93F900335F9D /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0345BFD61DBF002E00398B6F /* APIKeys.swift */; };
@@ -177,7 +180,6 @@
 		8C08E2BE234E93F900335F9D /* NYPLBookRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 11616E10196B0531003D60D9 /* NYPLBookRegistry.m */; };
 		8C08E2BF234E93F900335F9D /* UILabel+NYPLAppearanceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 081387561BC574DA003DEA6A /* UILabel+NYPLAppearanceAdditions.m */; };
 		8C08E2C0234E93F900335F9D /* NYPLJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 11369D47199527C200BB11F8 /* NYPLJSON.m */; };
-		8C08E2C1234E93F900335F9D /* NYPLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 116A5EB81947B57500491A21 /* NYPLConfiguration.m */; };
 		8C08E2C2234E93F900335F9D /* NYPLAlertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1B142922CC179F0006C964 /* NYPLAlertUtils.swift */; };
 		8C08E2C3234E93F900335F9D /* OPDS2Publication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C1E0122861BBF003B49A5 /* OPDS2Publication.swift */; };
 		8C08E2C4234E93F900335F9D /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD567AE22B95A30001F0C83 /* String+MD5.swift */; };
@@ -220,7 +222,6 @@
 		8C08E2E9234E93F900335F9D /* NYPLBookButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ED41D91B8F6E2E009FC164 /* NYPLBookButtonsView.m */; };
 		8C08E2EA234E93F900335F9D /* NYPLAppReviewPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93F9F9621CDACF700BD3B0C /* NYPLAppReviewPrompt.swift */; };
 		8C08E2EB234E93F900335F9D /* NYPLDismissibleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 111197331986D7550014462F /* NYPLDismissibleViewController.m */; };
-		8C08E2EC234E93F900335F9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A823D81C192BABA400B55DE2 /* main.m */; };
 		8C08E2ED234E93F900335F9D /* UIView+NYPLViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1107835D19816E3D0071AB1E /* UIView+NYPLViewAdditions.m */; };
 		8C08E2EE234E93F900335F9D /* NYPLSettingsPrimaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 111E75821A815CFB00718AD7 /* NYPLSettingsPrimaryTableViewController.m */; };
 		8C08E2EF234E93F900335F9D /* UIFont+NYPLSystemFontOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E0208C197F05D9009DEA93 /* UIFont+NYPLSystemFontOverride.m */; };
@@ -351,7 +352,6 @@
 		8C08E370234E93F900335F9D /* readium-shared-js_all.js in Resources */ = {isa = PBXBuildFile; fileRef = 5A69290D1B95ACC600FB4C10 /* readium-shared-js_all.js */; };
 		8C08E371234E93F900335F9D /* ReaderClientCert.sig in Resources */ = {isa = PBXBuildFile; fileRef = 085D31FB1BE7BE86007F7672 /* ReaderClientCert.sig */; };
 		8C08E372234E93F900335F9D /* software-licenses.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D6256901D41582A0080A81F /* software-licenses.html */; };
-		8C08E373234E93F900335F9D /* NYPL_Launch_Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E65977C41F82AC91003CD6BC /* NYPL_Launch_Screen.storyboard */; };
 		8C08E374234E93F900335F9D /* Accounts.json in Resources */ = {isa = PBXBuildFile; fileRef = 03F94CCE1DD627AA00CE8F4F /* Accounts.json */; };
 		8C08E375234E93F900335F9D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A823D819192BABA400B55DE2 /* InfoPlist.strings */; };
 		8C08E376234E93F900335F9D /* reader.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C113CF19F842B9005B3F63 /* reader.html */; };
@@ -377,6 +377,15 @@
 		8C439A10235F881000A867E0 /* OETutorialChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */; };
 		8C439A12235FA4B500A867E0 /* OEConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A11235FA4B500A867E0 /* OEConfiguration.swift */; };
 		8C439A14235FA63F00A867E0 /* SEConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A13235FA63F00A867E0 /* SEConfiguration.swift */; };
+		8C439A16235FA8F900A867E0 /* NYPLConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A15235FA8F900A867E0 /* NYPLConfiguration.swift */; };
+		8C439AF2235FC6C200A867E0 /* NYPLConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439A15235FA8F900A867E0 /* NYPLConfiguration.swift */; };
+		8C439AF4235FC9EA00A867E0 /* CleverLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439AF3235FC9EA00A867E0 /* CleverLoginViewController.swift */; };
+		8C439AF6235FCFA500A867E0 /* OEMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439AF5235FCFA500A867E0 /* OEMigrationManager.swift */; };
+		8C439AF8235FD08500A867E0 /* OECatalogNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439AF7235FD08500A867E0 /* OECatalogNavigationController.swift */; };
+		8C439AFA235FD09700A867E0 /* OEMyBooksNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439AF9235FD09700A867E0 /* OEMyBooksNavigationController.swift */; };
+		8C439AFC235FD0A300A867E0 /* OEHoldsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439AFB235FD0A300A867E0 /* OEHoldsNavigationController.swift */; };
+		8C439AFE235FD0B000A867E0 /* OESettingsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439AFD235FD0B000A867E0 /* OESettingsSplitViewController.swift */; };
+		8C439B042360CD6000A867E0 /* OEUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C439B032360CD6000A867E0 /* OEUtils.swift */; };
 		8C70C0A7235A6F0200D34736 /* SEMyBooksNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70C0A6235A6F0200D34736 /* SEMyBooksNavigationController.swift */; };
 		8C70C0A9235A83AB00D34736 /* SECatalogNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70C0A8235A83AB00D34736 /* SECatalogNavigationController.swift */; };
 		8C70C0AB235A90F900D34736 /* SEUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70C0AA235A90F900D34736 /* SEUtils.swift */; };
@@ -602,8 +611,6 @@
 		116A5EAE194767B200491A21 /* NYPLMyBooksNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPLMyBooksNavigationController.m; sourceTree = "<group>"; };
 		116A5EB1194767DC00491A21 /* NYPLMyBooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPLMyBooksViewController.h; sourceTree = "<group>"; };
 		116A5EB2194767DC00491A21 /* NYPLMyBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPLMyBooksViewController.m; sourceTree = "<group>"; };
-		116A5EB71947B57500491A21 /* NYPLConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPLConfiguration.h; sourceTree = "<group>"; };
-		116A5EB81947B57500491A21 /* NYPLConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPLConfiguration.m; sourceTree = "<group>"; };
 		1183F339194B775900DC322F /* NYPLCatalogLaneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPLCatalogLaneCell.h; sourceTree = "<group>"; };
 		1183F33A194B775900DC322F /* NYPLCatalogLaneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPLCatalogLaneCell.m; sourceTree = "<group>"; };
 		1183F33F194F723D00DC322F /* NYPLCatalogLane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPLCatalogLane.h; sourceTree = "<group>"; };
@@ -747,6 +754,11 @@
 		84B7A3441B84E8FE00584FB2 /* OpenDyslexic3-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic3-Bold.ttf"; sourceTree = "<group>"; };
 		84B7A3451B84E8FE00584FB2 /* OpenDyslexic3-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic3-Regular.ttf"; sourceTree = "<group>"; };
 		84FCD2601B7BA79200BFEDD9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		8C0047C72360F04500549BA7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8C0047CD2360F10700549BA7 /* OpenEBooks_Launch_Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OpenEBooks_Launch_Screen.storyboard; path = Simplified/OpenEBooks/OpenEBooks_Launch_Screen.storyboard; sourceTree = SOURCE_ROOT; };
+		8C0047D42360FF0200549BA7 /* OEEULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEEULAViewController.swift; sourceTree = "<group>"; };
+		8C0047D62361008E00549BA7 /* OESettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OESettings.swift; sourceTree = "<group>"; };
+		8C0047D82361153700549BA7 /* OpenEBooks.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = OpenEBooks.entitlements; sourceTree = "<group>"; };
 		8C08E386234E93F900335F9D /* OpenEbooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEbooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C08E38B234E93F900335F9D /* OpenEbooks-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "OpenEbooks-Info.plist"; path = "/Users/kylesakai/repos/Simplified-iOS/OpenEbooks-Info.plist"; sourceTree = "<absolute>"; };
 		8C08E38C234E967300335F9D /* NYPLAppDelegate.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NYPLAppDelegate.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -760,6 +772,15 @@
 		8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OETutorialChoiceViewController.swift; sourceTree = "<group>"; };
 		8C439A11235FA4B500A867E0 /* OEConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEConfiguration.swift; sourceTree = "<group>"; };
 		8C439A13235FA63F00A867E0 /* SEConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConfiguration.swift; sourceTree = "<group>"; };
+		8C439A15235FA8F900A867E0 /* NYPLConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NYPLConfiguration.swift; sourceTree = "<group>"; };
+		8C439AF0235FC0EB00A867E0 /* SimplyE copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SimplyE copy-Info.plist"; path = "/Users/kylesakai/repos/Simplified-iOS/SimplyE copy-Info.plist"; sourceTree = "<absolute>"; };
+		8C439AF3235FC9EA00A867E0 /* CleverLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleverLoginViewController.swift; sourceTree = "<group>"; };
+		8C439AF5235FCFA500A867E0 /* OEMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEMigrationManager.swift; sourceTree = "<group>"; };
+		8C439AF7235FD08500A867E0 /* OECatalogNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OECatalogNavigationController.swift; sourceTree = "<group>"; };
+		8C439AF9235FD09700A867E0 /* OEMyBooksNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEMyBooksNavigationController.swift; sourceTree = "<group>"; };
+		8C439AFB235FD0A300A867E0 /* OEHoldsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEHoldsNavigationController.swift; sourceTree = "<group>"; };
+		8C439AFD235FD0B000A867E0 /* OESettingsSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OESettingsSplitViewController.swift; sourceTree = "<group>"; };
+		8C439B032360CD6000A867E0 /* OEUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEUtils.swift; sourceTree = "<group>"; };
 		8C70C0A6235A6F0200D34736 /* SEMyBooksNavigationController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SEMyBooksNavigationController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8C70C0A8235A83AB00D34736 /* SECatalogNavigationController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SECatalogNavigationController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8C70C0AA235A90F900D34736 /* SEUtils.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SEUtils.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -787,7 +808,6 @@
 		A823D814192BABA400B55DE2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A823D818192BABA400B55DE2 /* Simplified-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Simplified-Info.plist"; sourceTree = "<group>"; };
 		A823D81A192BABA400B55DE2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A823D81C192BABA400B55DE2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A823D81E192BABA400B55DE2 /* Simplified-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Simplified-Prefix.pch"; sourceTree = "<group>"; };
 		A823D822192BABA400B55DE2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A823D833192BABA400B55DE2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1236,6 +1256,28 @@
 			path = Resources/OpenDyslexicFont;
 			sourceTree = "<group>";
 		};
+		8C439B00235FD0D700A867E0 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				8C439A09235F860300A867E0 /* OETutorialViewController.swift */,
+				8C439A0B235F87EE00A867E0 /* OETutorialWelcomeViewController.swift */,
+				8C439A0D235F880100A867E0 /* OETutorialEligibilityViewController.swift */,
+				8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */,
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
+		};
+		8C439B02235FD11D00A867E0 /* ViewOverrides */ = {
+			isa = PBXGroup;
+			children = (
+				8C439AF7235FD08500A867E0 /* OECatalogNavigationController.swift */,
+				8C439AF9235FD09700A867E0 /* OEMyBooksNavigationController.swift */,
+				8C439AFB235FD0A300A867E0 /* OEHoldsNavigationController.swift */,
+				8C439AFD235FD0B000A867E0 /* OESettingsSplitViewController.swift */,
+			);
+			name = ViewOverrides;
+			sourceTree = "<group>";
+		};
 		8CBF104F2358EC28006F8433 /* SimplyE */ = {
 			isa = PBXGroup;
 			children = (
@@ -1254,12 +1296,19 @@
 		8CBF10502358EC39006F8433 /* OpenEBooks */ = {
 			isa = PBXGroup;
 			children = (
+				8C0047D82361153700549BA7 /* OpenEBooks.entitlements */,
+				8C0047CD2360F10700549BA7 /* OpenEBooks_Launch_Screen.storyboard */,
+				8C08E38B234E93F900335F9D /* OpenEbooks-Info.plist */,
+				8C0047C72360F04500549BA7 /* Images.xcassets */,
+				8C439B02235FD11D00A867E0 /* ViewOverrides */,
+				8C439B00235FD0D700A867E0 /* Tutorial */,
 				8C439A07235F85BF00A867E0 /* OEAppDelegate.swift */,
-				8C439A09235F860300A867E0 /* OETutorialViewController.swift */,
-				8C439A0B235F87EE00A867E0 /* OETutorialWelcomeViewController.swift */,
-				8C439A0D235F880100A867E0 /* OETutorialEligibilityViewController.swift */,
-				8C439A0F235F881000A867E0 /* OETutorialChoiceViewController.swift */,
 				8C439A11235FA4B500A867E0 /* OEConfiguration.swift */,
+				8C439AF3235FC9EA00A867E0 /* CleverLoginViewController.swift */,
+				8C439AF5235FCFA500A867E0 /* OEMigrationManager.swift */,
+				8C439B032360CD6000A867E0 /* OEUtils.swift */,
+				8C0047D42360FF0200549BA7 /* OEEULAViewController.swift */,
+				8C0047D62361008E00549BA7 /* OESettings.swift */,
 			);
 			path = OpenEBooks;
 			sourceTree = "<group>";
@@ -1285,6 +1334,7 @@
 				A823D82F192BABA400B55DE2 /* SimplifiedTests */,
 				A823D80E192BABA400B55DE2 /* Products */,
 				A823D80F192BABA400B55DE2 /* Frameworks */,
+				8C439AF0235FC0EB00A867E0 /* SimplyE copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1367,8 +1417,7 @@
 				A4E254F91B0E610900193FE4 /* NYPLBasicAuth.m */,
 				5D7CF8B422C3FC06007CAA34 /* NYPLBugsnagLogs.swift */,
 				E66AE32F1DC0FCFC00124AE2 /* NYPLCirculationAnalytics.swift */,
-				116A5EB71947B57500491A21 /* NYPLConfiguration.h */,
-				116A5EB81947B57500491A21 /* NYPLConfiguration.m */,
+				8C439A15235FA8F900A867E0 /* NYPLConfiguration.swift */,
 				E6F26E721DFF672F00C103CA /* NYPLDirectoryManager.swift */,
 				111197321986D7550014462F /* NYPLDismissibleViewController.h */,
 				111197331986D7550014462F /* NYPLDismissibleViewController.m */,
@@ -1389,7 +1438,6 @@
 				52592BBB21220A4F00587288 /* NYPLLocalization.h */,
 				52592BB721220A1100587288 /* NYPLLocalization.m */,
 				1114A6AC1958B215007507A2 /* NYPLLOG.h */,
-				5D60D3532297353C001080D0 /* SimplyEMigrationManager.swift */,
 				E671FF7C1E3A7068002AB13F /* NYPLNetworkQueue.swift */,
 				11068C53196DD37900E8A94B /* NYPLNull.h */,
 				11068C54196DD37900E8A94B /* NYPLNull.m */,
@@ -1424,6 +1472,7 @@
 				119504051994061E009FB788 /* Reader */,
 				11C5DCEE1976D19E005A9945 /* Settings */,
 				8CBF104F2358EC28006F8433 /* SimplyE */,
+				5D60D3532297353C001080D0 /* SimplyEMigrationManager.swift */,
 				A823D817192BABA400B55DE2 /* Supporting Files */,
 				2DC8D9DB1D09F797007DD125 /* UpdateCheck.swift */,
 				2DC8D9DD1D09F9B4007DD125 /* UpdateCheckShim.swift */,
@@ -1438,17 +1487,15 @@
 				A823D822192BABA400B55DE2 /* Images.xcassets */,
 				A823D819192BABA400B55DE2 /* InfoPlist.strings */,
 				032A31071DC02E8E0001E4AF /* Localizable.strings */,
-				A823D81C192BABA400B55DE2 /* main.m */,
 				E65977C41F82AC91003CD6BC /* NYPL_Launch_Screen.storyboard */,
 				84B7A3421B84E8FE00584FB2 /* OpenDyslexicFont */,
-				8C08E38B234E93F900335F9D /* OpenEbooks-Info.plist */,
 				11C113D319F842E2005B3F63 /* Reader */,
 				085D31FB1BE7BE86007F7672 /* ReaderClientCert.sig */,
 				A823D818192BABA400B55DE2 /* Simplified-Info.plist */,
 				A823D81E192BABA400B55DE2 /* Simplified-Prefix.pch */,
-				2D382BCF1D08B1F5002C423D /* SimplyE-Bridging-Header.h */,
 				E61D7F631F6AC78B0091C781 /* SimplyE.entitlements */,
 				2D6256901D41582A0080A81F /* software-licenses.html */,
+				2D382BCF1D08B1F5002C423D /* SimplyE-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1727,17 +1774,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C08E36D234E93F900335F9D /* OFL.txt in Resources */,
+				8C0047CC2360F04500549BA7 /* Images.xcassets in Resources */,
 				8C08E36E234E93F900335F9D /* simplified.js in Resources */,
 				8C08E36F234E93F900335F9D /* NYPLProblemReportViewController.xib in Resources */,
 				8C08E370234E93F900335F9D /* readium-shared-js_all.js in Resources */,
 				8C08E371234E93F900335F9D /* ReaderClientCert.sig in Resources */,
 				8C08E372234E93F900335F9D /* software-licenses.html in Resources */,
-				8C08E373234E93F900335F9D /* NYPL_Launch_Screen.storyboard in Resources */,
 				8C08E374234E93F900335F9D /* Accounts.json in Resources */,
 				8C08E375234E93F900335F9D /* InfoPlist.strings in Resources */,
 				8C08E376234E93F900335F9D /* reader.html in Resources */,
 				8C08E377234E93F900335F9D /* DetailSummaryTemplate.html in Resources */,
 				8C08E378234E93F900335F9D /* Localizable.strings in Resources */,
+				8C0047CE2360F10700549BA7 /* OpenEBooks_Launch_Screen.storyboard in Resources */,
 				8C08E379234E93F900335F9D /* Images.xcassets in Resources */,
 				8C08E37A234E93F900335F9D /* sdk.css in Resources */,
 				8C08E37B234E93F900335F9D /* OpenDyslexic3-Bold.ttf in Resources */,
@@ -1900,6 +1948,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C439AF2235FC6C200A867E0 /* NYPLConfiguration.swift in Sources */,
 				8C08E2B6234E93F900335F9D /* NYPLCirculationAnalytics.swift in Sources */,
 				8C08E2B7234E93F900335F9D /* UpdateCheckShim.swift in Sources */,
 				8C08E2B8234E93F900335F9D /* APIKeys.swift in Sources */,
@@ -1911,7 +1960,6 @@
 				8C08E2BE234E93F900335F9D /* NYPLBookRegistry.m in Sources */,
 				8C08E2BF234E93F900335F9D /* UILabel+NYPLAppearanceAdditions.m in Sources */,
 				8C08E2C0234E93F900335F9D /* NYPLJSON.m in Sources */,
-				8C08E2C1234E93F900335F9D /* NYPLConfiguration.m in Sources */,
 				8C08E2C2234E93F900335F9D /* NYPLAlertUtils.swift in Sources */,
 				8C08E2C3234E93F900335F9D /* OPDS2Publication.swift in Sources */,
 				8C08E2C4234E93F900335F9D /* String+MD5.swift in Sources */,
@@ -1932,6 +1980,7 @@
 				8C08E2D2234E93F900335F9D /* NYPLReaderBookmarkCell.swift in Sources */,
 				8C08E2D3234E93F900335F9D /* NYPLOpenSearchDescription.m in Sources */,
 				8C08E2D4234E93F900335F9D /* NYPLReaderTOCElement.m in Sources */,
+				8C439AF6235FCFA500A867E0 /* OEMigrationManager.swift in Sources */,
 				8C08E2D5234E93F900335F9D /* UpdateCheck.swift in Sources */,
 				8C08E2D6234E93F900335F9D /* NYPLReaderTOCViewController.m in Sources */,
 				8C08E2D7234E93F900335F9D /* OPDS2CatalogsFeed.swift in Sources */,
@@ -1953,13 +2002,15 @@
 				8C08E2E7234E93F900335F9D /* NYPLEntryPointView.swift in Sources */,
 				8C08E2E8234E93F900335F9D /* NYPLOPDSGroup.m in Sources */,
 				8C08E2E9234E93F900335F9D /* NYPLBookButtonsView.m in Sources */,
+				8C439AFC235FD0A300A867E0 /* OEHoldsNavigationController.swift in Sources */,
 				8C08E2EA234E93F900335F9D /* NYPLAppReviewPrompt.swift in Sources */,
 				8C08E2EB234E93F900335F9D /* NYPLDismissibleViewController.m in Sources */,
-				8C08E2EC234E93F900335F9D /* main.m in Sources */,
 				8C08E2ED234E93F900335F9D /* UIView+NYPLViewAdditions.m in Sources */,
 				8C08E2EE234E93F900335F9D /* NYPLSettingsPrimaryTableViewController.m in Sources */,
 				8C08E2EF234E93F900335F9D /* UIFont+NYPLSystemFontOverride.m in Sources */,
 				8C08E2F0234E93F900335F9D /* NYPLReadiumBookmark.swift in Sources */,
+				8C439AFE235FD0B000A867E0 /* OESettingsSplitViewController.swift in Sources */,
+				8C439B042360CD6000A867E0 /* OEUtils.swift in Sources */,
 				8C08E2F1234E93F900335F9D /* NYPLFacetViewDefaultDataSource.swift in Sources */,
 				8C08E2F2234E93F900335F9D /* NYPLAppTheme.swift in Sources */,
 				8C08E2F3234E93F900335F9D /* UIColor+NYPLColorAdditions.m in Sources */,
@@ -2027,17 +2078,21 @@
 				8C08E32F234E93F900335F9D /* NYPLPDFViewControllerDelegate.swift in Sources */,
 				8C08E330234E93F900335F9D /* NYPLKeychain.m in Sources */,
 				8C08E331234E93F900335F9D /* NYPLReaderContainerDelegateBase.m in Sources */,
+				8C0047D52360FF0200549BA7 /* OEEULAViewController.swift in Sources */,
 				8C439A0C235F87EE00A867E0 /* OETutorialWelcomeViewController.swift in Sources */,
 				8C08E332234E93F900335F9D /* NYPLOPDSEntry.m in Sources */,
 				8C08E333234E93F900335F9D /* NYPLReaderSettingsView.m in Sources */,
 				8C08E334234E93F900335F9D /* NYPLIndeterminateProgressView.m in Sources */,
+				8C439AF8235FD08500A867E0 /* OECatalogNavigationController.swift in Sources */,
 				8C08E335234E93F900335F9D /* NSString+NYPLStringAdditions.m in Sources */,
 				8C439A12235FA4B500A867E0 /* OEConfiguration.swift in Sources */,
 				8C08E336234E93F900335F9D /* NYPLKeychainManager.swift in Sources */,
 				8C08E337234E93F900335F9D /* NYPLBugsnagLogs.swift in Sources */,
 				8C08E338234E93F900335F9D /* NYPLOPDSEntryGroupAttributes.m in Sources */,
 				8C08E339234E93F900335F9D /* NYPLMyBooksDownloadCenter.m in Sources */,
+				8C0047D72361008E00549BA7 /* OESettings.swift in Sources */,
 				8C08E33A234E93F900335F9D /* NYPLBookDetailButtonsView.m in Sources */,
+				8C439AFA235FD09700A867E0 /* OEMyBooksNavigationController.swift in Sources */,
 				8C08E33B234E93F900335F9D /* NYPLMyBooksSimplifiedBearerToken.m in Sources */,
 				8C08E33C234E93F900335F9D /* NYPLAnnotations.swift in Sources */,
 				8C08E33D234E93F900335F9D /* RemoteHTMLViewController.swift in Sources */,
@@ -2053,6 +2108,7 @@
 				8C08E347234E93F900335F9D /* NYPLOPDSFeed.m in Sources */,
 				8C08E348234E93F900335F9D /* NYPLRoundedButton.m in Sources */,
 				8C08E349234E93F900335F9D /* NYPLOPDSLink.m in Sources */,
+				8C439AF4235FC9EA00A867E0 /* CleverLoginViewController.swift in Sources */,
 				8C08E34A234E93F900335F9D /* NYPLOPDSType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2075,7 +2131,6 @@
 				11616E11196B0531003D60D9 /* NYPLBookRegistry.m in Sources */,
 				081387571BC574DA003DEA6A /* UILabel+NYPLAppearanceAdditions.m in Sources */,
 				11369D48199527C200BB11F8 /* NYPLJSON.m in Sources */,
-				116A5EB91947B57500491A21 /* NYPLConfiguration.m in Sources */,
 				5D1B142A22CC179F0006C964 /* NYPLAlertUtils.swift in Sources */,
 				B51C1E0222861BBF003B49A5 /* OPDS2Publication.swift in Sources */,
 				5DD567AF22B95A30001F0C83 /* String+MD5.swift in Sources */,
@@ -2143,6 +2198,7 @@
 				841B55431B740F2700FAC1AF /* NYPLSettingsEULAViewController.m in Sources */,
 				A4276F481B00046300CA7194 /* NYPLMyBooksDownloadInfo.m in Sources */,
 				1164F106199AC236009BF8BF /* NYPLBookLocation.m in Sources */,
+				8C439A16235FA8F900A867E0 /* NYPLConfiguration.swift in Sources */,
 				11F3771F19DB62B000487769 /* NYPLFacetView.m in Sources */,
 				5A5B901B1B946FAD002C53E9 /* NYPLReaderContainerDelegate.mm in Sources */,
 				145798F6215BE9E300F68AFD /* ProblemReportEmail.swift in Sources */,
@@ -2318,7 +2374,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Simplified/SimplyE.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Simplified/OpenEBooks/OpenEbooks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7262U6ST2R;
 				ENABLE_BITCODE = NO;
@@ -2340,12 +2396,14 @@
 					"$(PROJECT_DIR)/readium-sdk/Platform/Apple/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/readium-sdk/Platform/Apple/build/Release-iphoneos",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.nypl.labs.SimplyE;
+				MARKETING_VERSION = 1.7.7;
+				PRODUCT_BUNDLE_IDENTIFIER = org.nypl.labs.OpenEbooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2e185b6c-271e-4b02-a05e-860b8c3831f6";
-				PROVISIONING_PROFILE_SPECIFIER = "SimplyE Development (Keychain Migration)";
+				PROVISIONING_PROFILE_SPECIFIER = "Open eBooks Development";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG FEATURE_DRM_CONNECTOR";
 				SWIFT_OBJC_BRIDGING_HEADER = "Simplified/SimplyE-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SimplyE-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
@@ -2368,7 +2426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Simplified/SimplyE.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Simplified/OpenEBooks/OpenEbooks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 7262U6ST2R;
 				ENABLE_BITCODE = NO;
@@ -2394,12 +2452,14 @@
 					"$(PROJECT_DIR)/readium-sdk/Platform/Apple/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/readium-sdk/Platform/Apple/build/Release-iphoneos",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.nypl.labs.SimplyE;
+				MARKETING_VERSION = 1.7.7;
+				PRODUCT_BUNDLE_IDENTIFIER = org.nypl.labs.OpenEbooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b3d9154d-70e1-48d6-a0c5-869431277a5c";
 				PROVISIONING_PROFILE_SPECIFIER = "SimplyE Distribution 2019";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = FEATURE_DRM_CONNECTOR;
 				SWIFT_OBJC_BRIDGING_HEADER = "Simplified/SimplyE-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SimplyE-Swift.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
