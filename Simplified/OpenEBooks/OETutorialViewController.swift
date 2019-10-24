@@ -34,7 +34,7 @@ class OETutorialViewController : UIPageViewController, UIPageViewControllerDataS
       OETutorialChoiceViewController()
     ]
     
-    self.setViewControllers(self.views, direction: .forward, animated: true, completion: nil)
+    self.setViewControllers([self.views[0]], direction: .forward, animated: true, completion: nil)
   }
   
   // MARK: UIPageViewControllerDataSource

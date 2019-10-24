@@ -1,9 +1,5 @@
 fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
 
-extension Notification.Name {
-  static let NYPLAppDelegateDidReceiveCleverRedirectURL = Notification.Name("NYPLAppDelegateDidReceiveCleverRedirectURL")
-}
-
 @UIApplicationMain
 class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   override init() {
@@ -13,6 +9,9 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   // MARK: UIApplicationDelegate
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    // Swap superclass shared value with subclass
+    NYPLConfiguration.shared = OEConfiguration.oeShared
+    
     OEMigrationManager.migrate()
     
     self.audiobookLifecycleManager.didFinishLaunching()
@@ -39,10 +38,26 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     NYPLRootTabBarController.shared()?.setHoldsNav(OEHoldsNavigationController())
     NYPLRootTabBarController.shared()?.setSettingsSplitView(OESettingsSplitViewController())
     
-    if NYPLSettings.shared.userHasSeenWelcomeScreen {
-      self.window!.rootViewController = NYPLRootTabBarController.shared()
+    if OESettings.oeShared.userHasAcceptedEULA {
+      if NYPLSettings.shared.userHasSeenWelcomeScreen {
+        self.window!.rootViewController = NYPLRootTabBarController.shared()
+      } else {
+        self.window!.rootViewController = OETutorialViewController()
+      }
     } else {
-      self.window!.rootViewController = OETutorialViewController()
+      let eulaVC = OEEULAViewController() {
+        UIView.transition(
+          with: self.window!,
+          duration: 0.5,
+          options: [.transitionCurlUp, .allowAnimatedContent, .layoutSubviews],
+          animations: {
+            self.window?.rootViewController = OETutorialViewController()
+          },
+          completion: nil
+        )
+      }
+      let eulaNavController = UINavigationController.init(rootViewController: eulaVC)
+      self.window?.rootViewController = eulaNavController
     }
     
     self.beginCheckingForUpdates()

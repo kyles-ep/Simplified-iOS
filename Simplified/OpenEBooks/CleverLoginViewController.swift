@@ -43,7 +43,7 @@ class CleverLoginViewController: UIViewController, WKNavigationDelegate {
     urlComponents.queryItems = [provider, redirect_uri]
 
     NotificationCenter.default.addObserver(
-      forName: NSNotification.Name.NYPLAppDelegateDidReceiveCleverRedirectURL,
+      forName: NSNotification.Name.OEAppDelegateDidReceiveCleverRedirectURL,
       object: nil,
       queue: OperationQueue.main,
       using: { notification in self.handleRedirectURL(url: notification.object as! URL) })

@@ -4,10 +4,7 @@ let currentAccountIdentifierKey  = "NYPLCurrentAccountIdentifier"
 let userAboveAgeKey              = "NYPLSettingsUserAboveAgeKey"
 let userAcceptedEULAKey          = "NYPLSettingsUserAcceptedEULA"
 let accountSyncEnabledKey        = "NYPLAccountSyncEnabledKey"
-let betaUrl = URL(string: "https://libraryregistry.librarysimplified.org/libraries/qa")!
-let prodUrl = URL(string: "https://libraryregistry.librarysimplified.org/libraries")!
-let betaUrlHash = betaUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
-let prodUrlHash = prodUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
+
 
 /**
  Switchboard for fetching data, whether it's from a cache source or fresh from the endpoint.
@@ -108,7 +105,7 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
 
   fileprivate override init() {
     self.defaults = UserDefaults.standard
-    self.accountSet = NYPLSettings.shared.useBetaLibraries ? betaUrlHash : prodUrlHash
+    self.accountSet = NYPLSettings.shared.useBetaLibraries ? NYPLConfiguration.shared.betaUrlHash : NYPLConfiguration.shared.prodUrlHash
     
     super.init()
     
@@ -122,7 +119,11 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
       self.loadCatalogs(options: .offline, completion: {_ in })
     }
     DispatchQueue.main.async {
-      self.loadCatalogs(options: .strict_offline, url: NYPLSettings.shared.useBetaLibraries ? prodUrl : betaUrl, completion: { _ in })
+      self.loadCatalogs(
+        options: .strict_offline,
+        url: NYPLSettings.shared.useBetaLibraries ? NYPLConfiguration.shared.prodUrl : NYPLConfiguration.shared.betaUrl,
+        completion: { _ in }
+      )
     }
   }
   
@@ -209,7 +210,7 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
   func loadCatalogs(options: LoadOptions, url: URL? = nil, completion: @escaping (Bool) -> ()) {
     let isBeta = NYPLSettings.shared.useBetaLibraries
     let targetUrl = url != nil ? url! :
-      isBeta ? betaUrl : prodUrl
+      isBeta ? NYPLConfiguration.shared.betaUrl : NYPLConfiguration.shared.prodUrl
     let hash = targetUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
     
     let wasAlreadyLoading = addLoadingCompletionHandler(key: hash, completion)
@@ -256,7 +257,7 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
   }
   
   func updateAccountSetFromSettings() {
-    self.accountSet = NYPLSettings.shared.useBetaLibraries ? betaUrlHash : prodUrlHash
+    self.accountSet = NYPLSettings.shared.useBetaLibraries ? NYPLConfiguration.shared.betaUrlHash : NYPLConfiguration.shared.prodUrlHash
     if self.accounts().isEmpty {
       loadCatalogs(options: .offline, completion: {_ in })
     }

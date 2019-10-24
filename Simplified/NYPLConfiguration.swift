@@ -1,5 +1,6 @@
 import Bugsnag
 
+
 @objcMembers class NYPLConfiguration : NSObject {
   // Static stuff
   class func initConfig () {
@@ -34,10 +35,14 @@ import Bugsnag
     return (TARGET_OS_SIMULATOR == 0) || (receiptURL?.path.contains("sandboxReceipt") ?? false)
   }
   
+  fileprivate static let _betaUrl = URL(string: "https://libraryregistry.librarysimplified.org/libraries/qa")!
+  fileprivate static let _prodUrl = URL(string: "https://libraryregistry.librarysimplified.org/libraries")!
+  fileprivate static let _betaUrlHash = _betaUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
+  fileprivate static let _prodUrlHash = _prodUrl.absoluteString.md5().base64EncodedStringUrlSafe().trimmingCharacters(in: ["="])
+
   static var shared = NYPLConfiguration()
 
   // Member vars
-  
   var mainFeedURL: URL? {
     return NYPLSettings.shared.customMainFeedURL ?? NYPLSettings.shared.accountMainFeedURL
   }
@@ -72,4 +77,20 @@ import Bugsnag
   let boldSystemFontName = "AvenirNext-Bold"
 
   let systemFontFamilyName = "Avenir Next"
+  
+  var betaUrl: URL {
+    return NYPLConfiguration._betaUrl
+  }
+  
+  var prodUrl: URL {
+    return NYPLConfiguration._prodUrl
+  }
+  
+  var betaUrlHash: String {
+    return NYPLConfiguration._betaUrlHash
+  }
+  
+  var prodUrlHash: String {
+    return NYPLConfiguration._prodUrlHash
+  }
 }
