@@ -7,24 +7,26 @@ import Bugsnag
   }
   
   private class func configureCrashAnalytics() {
-#if !targetEnvironment(simulator)
-    var bugsnagConfig = BugsnagConfiguration()
-    bugsnagConfig.apiKey = APIKeys.bugsnagID
+    #if !targetEnvironment(simulator)
+      let bugsnagConfig = BugsnagConfiguration()
+      bugsnagConfig.apiKey = APIKeys.bugsnagID
 
-    if (DEBUG) {
-      bugsnagConfig.releaseStage = "development"
-    } else if (self.releaseStageIsBeta()) {
-      bugsnagConfig.releaseStage = "beta"
-      if (NYPLAccount.shared()?.barcode != nil) {
-        bugsnagConfig.setUser(NYPLAccount.shared()?.barcode, withName: nil, andEmail: nil)
-      }
-    } else {
-      config.releaseStage = "production"
-    }
+      #if DEBUG
+        bugsnagConfig.releaseStage = "development"
+      #else
+        if (self.releaseStageIsBeta()) {
+          bugsnagConfig.releaseStage = "beta"
+          if (NYPLAccount.shared()?.barcode != nil) {
+            bugsnagConfig.setUser(NYPLAccount.shared()?.barcode, withName: nil, andEmail: nil)
+          }
+        } else {
+          bugsnagConfig.releaseStage = "production"
+        }
+      #endif
 
-    Bugsnag.start(with: bugsnagConfig)
-    NYPLBugsnagLogs.reportNewActiveSession()
-#endif
+      Bugsnag.start(with: bugsnagConfig)
+      NYPLBugsnagLogs.reportNewActiveSession()
+    #endif
   }
   
   private class func releaseStageIsBeta() -> Bool {
