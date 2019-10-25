@@ -595,10 +595,7 @@ completionHandler:(void (^)(void))handler
                                             initWithRootViewController:accountViewController];
   viewController.modalPresentationStyle = UIModalPresentationFormSheet;
 
-  [[NYPLRootTabBarController sharedController]
-   safelyPresentViewController:viewController
-   animated:YES
-   completion:nil];
+  [NYPLUtils safelyPresent:viewController animated:YES completion:nil];
 
   if (authorizeImmediately && [NYPLAccount sharedAccount].hasBarcodeAndPIN) {
     accountViewController.PINTextField.text = [NYPLAccount sharedAccount].PIN;

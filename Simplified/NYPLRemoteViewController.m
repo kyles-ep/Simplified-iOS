@@ -207,4 +207,22 @@
   self.response = nil;
 }
 
+- (void)connection:(NSURLConnection *) __unused connection
+willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+  if ([challenge.protectionSpace.authenticationMethod
+      isEqualToString:NSURLAuthenticationMethodHTTPBasic]) {
+    if (challenge.previousFailureCount == 0) {
+      NSString *const barcode = [NYPLAccount sharedAccount].barcode;
+      NSString *const PIN = [NYPLAccount sharedAccount].PIN;
+      NSURLCredential *newCredential = [NSURLCredential
+                                        credentialWithUser:barcode
+                                        password:PIN
+                                        persistence:NSURLCredentialPersistenceNone];
+      [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
+      return;
+    }
+  }
+  [[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
+}
+
 @end

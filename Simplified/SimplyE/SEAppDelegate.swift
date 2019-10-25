@@ -15,7 +15,9 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     // Perform data migrations as early as possible before anything has a chance to access them
     NYPLKeychainManager.validateKeychain()
     
-    SimplyEMigrationManager.migrate()
+    SEMigrationManager.migrate()
+    
+    AccountsManager.shared.delayedInit()
     
     self.audiobookLifecycleManager.didFinishLaunching()
 

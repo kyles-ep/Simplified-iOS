@@ -32,18 +32,22 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     }
   }
   
-  // Load data from the internet if either the cache wasn't recent enough (or preferred), or somehow failed to load
-  let request = URLRequest.init(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
-  
-  let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
-    guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-      completion(nil)
-      return
+  if url.isFileURL {
+    completion(try? Data(contentsOf: url))
+  } else {
+    // Load data from the internet if either the cache wasn't recent enough (or preferred), or somehow failed to load
+    let request = URLRequest.init(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
+    
+    let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+      guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        completion(nil)
+        return
+      }
+      try? data.write(to: cacheUrl)
+      completion(data)
     }
-    try? data.write(to: cacheUrl)
-    completion(data)
+    dataTask.resume()
   }
-  dataTask.resume()
 }
 
 /// Manage the library accounts for the app.
@@ -108,7 +112,10 @@ func loadDataWithCache(url: URL, cacheUrl: URL, options: AccountsManager.LoadOpt
     self.accountSet = NYPLSettings.shared.useBetaLibraries ? NYPLConfiguration.shared.betaUrlHash : NYPLConfiguration.shared.prodUrlHash
     
     super.init()
-    
+  }
+
+  func delayedInit() {
+    self.accountSet = NYPLSettings.shared.useBetaLibraries ? NYPLConfiguration.shared.betaUrlHash : NYPLConfiguration.shared.prodUrlHash
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(updateAccountSetFromSettings),

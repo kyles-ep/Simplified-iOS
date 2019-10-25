@@ -11,7 +11,7 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     // Swap superclass shared value with subclass
     NYPLConfiguration.shared = OEConfiguration.oeShared
-    
+    AccountsManager.shared.delayedInit()
     OEMigrationManager.migrate()
     
     self.audiobookLifecycleManager.didFinishLaunching()
@@ -63,5 +63,14 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     self.beginCheckingForUpdates()
 
     return true;
+  }
+  
+  @objc(application:openURL:options:) override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    if url.scheme == "open-ebooks-clever" {
+      NotificationCenter.default.post(name: .OEAppDelegateDidReceiveCleverRedirectURL, object: url)
+      return true
+    }
+    
+    return super.application(app, open: url, options: options)
   }
 }

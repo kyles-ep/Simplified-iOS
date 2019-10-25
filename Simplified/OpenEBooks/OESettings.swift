@@ -26,7 +26,7 @@ class OESettings : NYPLSettings {
       }
       
       // Avoid crash in case currentLibrary isn't set yet
-      return ["urn:uuid:e1a01c16-04e7-4781-89fd-b442dd1be001"]
+      return [OEConfiguration.OpenEBooksUUID]
     }
     set(newAccountsList) {
       UserDefaults.standard.set(newAccountsList, forKey: NYPLSettings.settingsLibraryAccountsKey)

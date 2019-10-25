@@ -87,7 +87,18 @@ class OETutorialChoiceViewController : UIViewController {
   
   @objc func didSelectEnterCodes() {
     NYPLAccount.shared()?.removeBarcodeAndPIN()
-    NYPLAccountSignInViewController.requestCredentials(usingExistingBarcode: false, completionHandler: loginCompletionHandler)
+    if AccountsManager.shared.currentAccount?.details == nil {
+      AccountsManager.shared.currentAccount?.loadAuthenticationDocument(preferringCache: true, completion: { (success) in
+        if success {
+          NYPLAccountSignInViewController.requestCredentials(usingExistingBarcode: false, completionHandler: self.loginCompletionHandler)
+        } else {
+          let alert = NYPLAlertUtils.alert(title: "Bad Acount Info", message: "Could not resolve OpenEBooks account data")
+          self.present(alert, animated: true, completion: nil)
+        }
+      })
+    } else {
+      NYPLAccountSignInViewController.requestCredentials(usingExistingBarcode: false, completionHandler: loginCompletionHandler)
+    }
   }
   
   @objc func didSelectClever() {
