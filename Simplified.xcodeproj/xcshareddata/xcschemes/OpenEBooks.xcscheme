@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8C08E2B4234E93F900335F9D"
-               BuildableName = "OpenEbooks.app"
-               BlueprintName = "OpenEbooks"
+               BuildableName = "OpenEBooks.app"
+               BlueprintName = "OpenEBooks"
                ReferencedContainer = "container:Simplified.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C08E2B4234E93F900335F9D"
-            BuildableName = "OpenEbooks.app"
-            BlueprintName = "OpenEbooks"
+            BuildableName = "OpenEBooks.app"
+            BlueprintName = "OpenEBooks"
             ReferencedContainer = "container:Simplified.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C08E2B4234E93F900335F9D"
-            BuildableName = "OpenEbooks.app"
-            BlueprintName = "OpenEbooks"
+            BuildableName = "OpenEBooks.app"
+            BlueprintName = "OpenEBooks"
             ReferencedContainer = "container:Simplified.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

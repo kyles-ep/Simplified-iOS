@@ -1,3 +1,5 @@
+import HelpStack
+
 class OEConfiguration : NYPLConfiguration {
   static let NYPLCirculationBaseURLProduction = "https://circulation.openebooks.us"
   static let NYPLCirculationBaseURLTesting = "http://qa.circulation.openebooks.us"
@@ -12,6 +14,20 @@ class OEConfiguration : NYPLConfiguration {
   let circulationURL = URL.init(string: NYPLCirculationBaseURLProduction)!
   
   // MARK: NYPLConfiguration
+  
+  override class func initConfig() {
+    super.initConfig()
+    
+    // HelpStack ZenDesk
+    let hs = HSHelpStack.instance() as! HSHelpStack
+    hs.setThemeFrompList("HelpStackTheme")
+    let zenDeskGear = HSZenDeskGear.init(
+      instanceUrl: "https://openebooks.zendesk.com",
+      staffEmailAddress: "jamesenglish@nypl.org",
+      apiToken: "mgNmqzUFmNoj9oTBmDdtDVGYdm1l0HqWgZIZlQcN"
+    )
+    hs.gear = zenDeskGear
+  }
   
   override var betaUrl: URL {
     return OEConfiguration._dummyUrl
