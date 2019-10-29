@@ -21,17 +21,17 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSpokenName</key>
-	<string>Simply E</string>
+	<string>Open E-Books</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>org.nypl.labs.SimplyE</string>
+			<string>org.nypl.labs.OpenEbooks.clever</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>SimplyE</string>
-				<string>Simplifiedapp</string>
-				<string>OPDS</string>
+				<string>open-ebooks-clever</string>
 			</array>
 		</dict>
 	</array>

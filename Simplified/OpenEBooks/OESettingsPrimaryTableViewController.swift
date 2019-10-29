@@ -22,9 +22,18 @@ class OESettingsPrimaryTableViewController : UITableViewController {
       OESettingsPrimaryTableItem.init(
         indexPath: IndexPath.init(row: 0, section: 0),
         title: "Account",
-        viewController: NYPLSettingsAccountDetailViewController(
-          account: AccountsManager.shared.currentAccountId
-        )
+        selectionHandler: { (splitVC, tableVC) in
+          if NYPLAccount.shared()?.hasCredentials() ?? false {
+            splitVC.show(
+              NYPLSettingsAccountDetailViewController(
+                account: AccountsManager.shared.currentAccountId
+              ),
+              sender: nil
+            )
+          } else {
+            OETutorialChoiceViewController.showLoginPicker(handler: nil)
+          }
+        }
       ),
       OESettingsPrimaryTableItem.init(
         indexPath: IndexPath.init(row: 0, section: 1),
