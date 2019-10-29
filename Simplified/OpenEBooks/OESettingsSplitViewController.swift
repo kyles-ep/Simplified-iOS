@@ -11,7 +11,7 @@ class OESettingsSplitViewController : UISplitViewController, UISplitViewControll
     self.delegate = self
     self.title = NSLocalizedString("Settings", comment: "")
     self.tabBarItem.image = UIImage.init(named: "Settings")
-    //self.viewControllers = [self.navVC]
+    self.viewControllers = [self.navVC]
     self.presentsWithGesture = false
   }
   
@@ -23,18 +23,6 @@ class OESettingsSplitViewController : UISplitViewController, UISplitViewControll
   // MARK: UIView
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    let primaryTableVC = self.navVC.viewControllers.first as! OESettingsPrimaryTableViewController
-
-    self.show(self.navVC, sender: self)
-    
-    if UIDevice.current.userInterfaceIdiom == .pad && self.traitCollection.horizontalSizeClass != .compact {
-      //self.viewControllers = [self.navVC, primaryTableVC.items.first!.viewController]
-      primaryTableVC.tableView.selectRow(at: IndexPath.init(row: 0, section: 0), animated: false, scrollPosition: .middle)
-    } else {
-      //self.viewControllers = [self.navVC]
-    }
-    
     self.preferredDisplayMode = .allVisible
   }
   

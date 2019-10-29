@@ -30,6 +30,6 @@
 - (void)setCatalogNavController:(NYPLCatalogNavigationController*)controller;
 - (void)setMyBooksNavController:(NYPLMyBooksNavigationController*)controller;
 - (void)setHoldsNavController:(NYPLHoldsNavigationController*)controller;
-- (void)setSettingsSplitViewController:(NYPLSettingsSplitViewController*)controller;
+- (void)setSettingsSplitViewController:(UISplitViewController*)controller;
 
 @end

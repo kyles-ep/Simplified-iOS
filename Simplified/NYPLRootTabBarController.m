@@ -12,7 +12,7 @@
 
 @property (nonatomic) NYPLMyBooksNavigationController *myBooksNavigationController;
 @property (nonatomic) NYPLHoldsNavigationController *holdsNavigationController;
-@property (nonatomic) NYPLSettingsSplitViewController *settingsSplitViewController;
+@property (nonatomic) UISplitViewController *settingsSplitViewController;
 
 @end
 
@@ -107,7 +107,7 @@
   [self setTabViewControllers];
 }
 
-- (void)setSettingsSplitViewController:(NYPLSettingsSplitViewController*)controller {
+- (void)setSettingsSplitViewController:(UISplitViewController*)controller {
   _settingsSplitViewController = controller;
   [self setTabViewControllers];
 }

@@ -36,7 +36,7 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     NYPLRootTabBarController.shared()?.setCatalogNav(OECatalogNavigationController())
     NYPLRootTabBarController.shared()?.setMyBooksNav(OEMyBooksNavigationController())
     NYPLRootTabBarController.shared()?.setHoldsNav(OEHoldsNavigationController())
-    //NYPLRootTabBarController.shared()?.setSettingsSplitView(OESettingsSplitViewController())
+    NYPLRootTabBarController.shared()?.setSettingsSplitView(OESettingsSplitViewController())
     
     if OESettings.oeShared.userHasAcceptedEULA {
       if NYPLSettings.shared.userHasSeenWelcomeScreen {

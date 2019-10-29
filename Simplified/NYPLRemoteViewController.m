@@ -220,6 +220,8 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                                         persistence:NSURLCredentialPersistenceNone];
       [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
       return;
+    } else {
+      [[challenge sender] cancelAuthenticationChallenge:challenge];
     }
   }
   [[challenge sender] performDefaultHandlingForAuthenticationChallenge:challenge];
