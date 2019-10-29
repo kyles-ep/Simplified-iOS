@@ -12,7 +12,7 @@ class OEEULAViewController : UIViewController, UIWebViewDelegate {
     self.webView = UIWebView.init()
     self.activityIndicatorView = UIActivityIndicatorView.init(style: .gray)
     super.init(nibName: nil, bundle: nil)
-    self.title = NSLocalizedString("EULA", comment: "")
+    self.title = OEUtils.LocalizedString("EULA")
   }
   
   @available(*, unavailable)
@@ -41,11 +41,11 @@ class OEEULAViewController : UIViewController, UIWebViewDelegate {
     
     let rejectButton = UIButton.init(type: .system)
     rejectButton.titleLabel?.font = UIFont.systemFont(ofSize: 21)
-    let rejectTitle = NSLocalizedString("Reject", comment: "")
+    let rejectTitle = OEUtils.LocalizedString("Reject")
     
     let acceptButton = UIButton.init(type: .system)
     acceptButton.titleLabel?.font = UIFont.systemFont(ofSize: 21)
-    let acceptTitle = NSLocalizedString("Accept", comment: "")
+    let acceptTitle = OEUtils.LocalizedString("Accept")
     
     let rejectItem = UIBarButtonItem.init(title: rejectTitle, style: .plain, target: self, action: #selector(rejectedEULA))
     let acceptItem = UIBarButtonItem.init(title: acceptTitle, style: .done, target: self, action: #selector(acceptedEULA))
@@ -66,7 +66,7 @@ class OEEULAViewController : UIViewController, UIWebViewDelegate {
   @objc func rejectedEULA() {
     OESettings.oeShared.userHasAcceptedEULA = false
     let alert = NYPLAlertUtils.alert(title: "NOTICE", message: "EULAHaveToAgree")
-    let exitAction = UIAlertAction.init(title: NSLocalizedString("Cancel", comment: ""), style: .destructive, handler: nil)
+    let exitAction = UIAlertAction.init(title: OEUtils.LocalizedString("Cancel"), style: .destructive, handler: nil)
     alert.addAction(exitAction)
     self.present(alert, animated: false, completion: nil)
   }

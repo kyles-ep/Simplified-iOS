@@ -23,7 +23,7 @@ class OETutorialEligibilityViewController : UIViewController {
     
     self.descriptionLabel = UILabel.init(frame: CGRect.zero)
     self.descriptionLabel.font = UIFont.systemFont(ofSize: 20.0)
-    self.descriptionLabel.text = NSLocalizedString("TutorialEligibilityViewControllerDescription", comment: "")
+    self.descriptionLabel.text = OEUtils.LocalizedString("TutorialEligibilityViewControllerDescription")
     self.descriptionLabel.textAlignment = .center
     self.descriptionLabel.numberOfLines = 0
     self.view.addSubview(self.descriptionLabel)

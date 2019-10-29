@@ -9,7 +9,7 @@ class OESettingsSplitViewController : UISplitViewController, UISplitViewControll
     super.init(nibName: nil, bundle: nil)
     
     self.delegate = self
-    self.title = NSLocalizedString("Settings", comment: "")
+    self.title = OEUtils.LocalizedString("Settings")
     self.tabBarItem.image = UIImage.init(named: "Settings")
     self.viewControllers = [self.navVC]
     self.presentsWithGesture = false

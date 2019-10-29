@@ -19,9 +19,7 @@ class CleverLoginViewController: UIViewController, WKNavigationDelegate {
 
     self.view.addSubview(self.instructionLabel)
     self.instructionLabel.textColor = UIColor.gray
-    self.instructionLabel.text =
-      NSLocalizedString("Log in with Safari to continue.",
-                        comment: "An instruction for the user to log into Clever via Safari.")
+    self.instructionLabel.text = OEUtils.LocalizedString("Log in with Safari to continue.")
     self.instructionLabel.sizeToFit()
     
     let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(CleverLoginViewController.didSelectCancel))
@@ -69,12 +67,7 @@ class CleverLoginViewController: UIViewController, WKNavigationDelegate {
 
     self.navigationItem.leftBarButtonItem?.isEnabled = false
 
-//    LoadingIndicatorView.show(
-//      self.view,
-//      loadingText: NSLocalizedString("Logging in, please wait…",
-//                                     comment: "An instruction to wait while a Clever login is being finalized."))
-
-    if(!url.absoluteString.hasPrefix("open-ebooks-clever")
+    if (!url.absoluteString.hasPrefix("open-ebooks-clever")
       || !(url.absoluteString.contains("error") || url.absoluteString.contains("access_token")))
     {
       // The server did not give us what we expected (e.g. we received a 500),
@@ -86,19 +79,15 @@ class CleverLoginViewController: UIViewController, WKNavigationDelegate {
     let fragment = url.fragment
     var kvpairs:[String:String] = [String:String]()
     let components = fragment?.components(separatedBy: "&")
-    for component in components!
-    {
+    for component in components! {
       var kv = component.components(separatedBy: "=")
-      if kv.count == 2
-      {
+      if kv.count == 2 {
         kvpairs[kv[0]] = kv[1]
       }
     }
 
-    if let error = kvpairs["error"]
-    {
-      if let errorJson = error.replacingOccurrences(of: "+", with: " ").removingPercentEncoding?.parseJSONString
-      {
+    if let error = kvpairs["error"] {
+      if let errorJson = error.replacingOccurrences(of: "+", with: " ").removingPercentEncoding?.parseJSONString {
         debugPrint(errorJson)
 
         self.showErrorMessage((errorJson as? [String : Any])?["title"] as? String)
@@ -142,15 +131,11 @@ class CleverLoginViewController: UIViewController, WKNavigationDelegate {
   
   func showErrorMessage(_ message: String?)
   {
-    let title = NSLocalizedString(
-      "Clever Sign-In Failed",
-      comment: "An alert title telling the user that signing into Clever failed.")
-
-    let message = message != nil ? message : NSLocalizedString("UnknownRequestError", comment: "")
-
+    let title = OEUtils.LocalizedString("Clever Sign-In Failed")
+    let message = message != nil ? message : OEUtils.LocalizedString("UnknownRequestError")
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: nil))
-    
+
+    alert.addAction(UIAlertAction(title: OEUtils.LocalizedString("OK"), style: .cancel, handler: nil))
     self.dismiss(animated: true) {
       OEUtils.safelyPresent(alert, animated: true, completion: nil)
     }
@@ -201,7 +186,7 @@ class CleverLoginViewController: UIViewController, WKNavigationDelegate {
         {
           NYPLAccount.shared().setAdobeToken(adobeToken, patron: patron)
           NYPLAccount.shared().setAuthToken(authToken)
-          NYPLAccount.shared().setProvider(NSLocalizedString("Clever", comment: ""))
+          NYPLAccount.shared().setProvider(OEUtils.LocalizedString("Clever"))
           
           self.dismiss(animated: false, completion: nil)
           

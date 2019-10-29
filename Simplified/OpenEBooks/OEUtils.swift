@@ -15,4 +15,8 @@ class OEUtils {
     }
     base.present(vc, animated:animated, completion:completion)
   }
+  
+  class func LocalizedString(_ s: String) -> String {
+    Bundle.init(for: self).localizedString(forKey: s, value: nil, table: "OpenEBooks")
+  }
 }

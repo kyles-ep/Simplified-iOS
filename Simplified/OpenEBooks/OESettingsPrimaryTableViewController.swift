@@ -4,7 +4,7 @@ fileprivate func generateRemoteView(title: String, url: String) -> UIViewControl
   let remoteView = RemoteHTMLViewController.init(
     URL: URL.init(string: url)!,
     title: title,
-    failureMessage: NSLocalizedString("SettingsConnectionFailureMessage", comment: "")
+    failureMessage: OEUtils.LocalizedString("SettingsConnectionFailureMessage")
   )
   if UIDevice.current.userInterfaceIdiom == .pad {
     return UINavigationController.init(rootViewController: remoteView)

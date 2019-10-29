@@ -2,7 +2,7 @@ class OEHoldsNavigationController : NYPLHoldsNavigationController {
   override init() {
     super.init()
     self.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .refresh, target: self, action: #selector(didSelectSync))
-    self.topViewController?.navigationItem.leftBarButtonItem?.accessibilityLabel = NSLocalizedString("AccessibilityRefresh", tableName: "", comment: "")
+    self.topViewController?.navigationItem.leftBarButtonItem?.accessibilityLabel = OEUtils.LocalizedString("AccessibilityRefresh")
     self.topViewController?.navigationItem.leftBarButtonItem?.isEnabled = true
   }
   

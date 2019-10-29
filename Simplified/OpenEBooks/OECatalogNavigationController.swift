@@ -7,7 +7,7 @@ class OECatalogNavigationController : NYPLCatalogNavigationController {
       target: self,
       action: #selector(reloadSelected)
     )
-    self.viewController.navigationItem.leftBarButtonItem?.accessibilityLabel = NSLocalizedString("AccessibilityRefresh", comment: "")
+    self.viewController.navigationItem.leftBarButtonItem?.accessibilityLabel = OEUtils.LocalizedString("AccessibilityRefresh")
     self.viewController.navigationItem.leftBarButtonItem?.isEnabled = true
   }
   

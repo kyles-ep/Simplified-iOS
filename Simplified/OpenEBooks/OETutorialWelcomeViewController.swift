@@ -27,7 +27,7 @@ class OETutorialWelcomeViewController : UIViewController {
     self.view.addSubview(self.logoImageView)
     
     self.descriptionLabel.font = UIFont.systemFont(ofSize: 20.0)
-    self.descriptionLabel.text = NSLocalizedString("TutorialWelcomeViewControllerDescription", comment: "")
+    self.descriptionLabel.text = OEUtils.LocalizedString("TutorialWelcomeViewControllerDescription")
     self.descriptionLabel.textAlignment = .center
     self.descriptionLabel.numberOfLines = 0
     self.view.addSubview(self.descriptionLabel)

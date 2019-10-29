@@ -31,10 +31,10 @@ class OETutorialChoiceViewController : UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = NSLocalizedString("Log In", comment: "")
+    self.title = OEUtils.LocalizedString("Log In")
     
     self.descriptionLabel.font = UIFont.systemFont(ofSize: 20.0)
-    self.descriptionLabel.text = NSLocalizedString("TutorialChoiceViewControllerDescription", comment: "")
+    self.descriptionLabel.text = OEUtils.LocalizedString("TutorialChoiceViewControllerDescription")
     self.descriptionLabel.textAlignment = .center
     self.descriptionLabel.numberOfLines = 0
     self.descriptionLabel.sizeToFit()
@@ -48,7 +48,7 @@ class OETutorialChoiceViewController : UIViewController {
     self.loginWithCleverButton.sizeToFit()
     
     self.requestCodesButton.titleLabel?.font = UIFont.systemFont(ofSize: 20.0)
-    self.requestCodesButton.setTitle(NSLocalizedString("TutorialChoiceRequestCodes", comment: ""), for: .normal)
+    self.requestCodesButton.setTitle(OEUtils.LocalizedString("TutorialChoiceRequestCodes"), for: .normal)
     self.requestCodesButton.addTarget(self, action: #selector(didSelectRequestCodes), for: .touchUpInside)
     self.requestCodesButton.sizeToFit()
     
