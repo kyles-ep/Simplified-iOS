@@ -57,6 +57,22 @@ class OETutorialViewController : UIPageViewController, UIPageViewControllerDataS
     }
   }
   
+  func presentationCount(for pageViewController: UIPageViewController) -> Int {
+    return self.views.count
+  }
+  
+  func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+    guard let presentedVC = self.presentedViewController else {
+      Log.error("UIPageViewController", "Cannot find presented view controller")
+      return 0
+    }
+    let idx = self.views.index(of: presentedVC)
+    if idx == nil {
+      Log.error("UIPageViewController", "Cannot find index for view controller")
+    }
+    return idx ?? 0
+  }
+  
   // MARK: -
   
   func welcomeScreenCompletionHandler(_ account: Account) {
