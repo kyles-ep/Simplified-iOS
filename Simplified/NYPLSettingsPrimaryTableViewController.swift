@@ -1,78 +1,22 @@
-import HelpStack
-
-fileprivate func generateRemoteView(title: String, url: String) -> UIViewController {
-  let remoteView = RemoteHTMLViewController.init(
-    URL: URL.init(string: url)!,
-    title: title,
-    failureMessage: OEUtils.LocalizedString("SettingsConnectionFailureMessage")
-  )
-  if UIDevice.current.userInterfaceIdiom == .pad {
-    return UINavigationController.init(rootViewController: remoteView)
+class NYPLSettingsPrimaryTableViewController : UITableViewController {
+  var items: [NYPLSettingsPrimaryTableItem] {
+    didSet {
+      itemsMap.removeAll()
+      for item in items {
+        itemsMap[item.path.section] = max(itemsMap[item.path.section] ?? 0, item.path.row) + 1
+      }
+      self.tableView.reloadData()
+    }
   }
-  return remoteView
-}
-
-class OESettingsPrimaryTableViewController : UITableViewController {
-  let items: [OESettingsPrimaryTableItem]
+  private var itemsMap: [Int:Int]
   let infoLabel: UILabel
   var shouldShowDeveloperMenuItem: Bool
+  var developerVC: NYPLDeveloperSettingsTableViewController
   
   init() {
-    self.items = [
-      OESettingsPrimaryTableItem.init(
-        indexPath: IndexPath.init(row: 0, section: 0),
-        title: "Account",
-        selectionHandler: { (splitVC, tableVC) in
-          if NYPLAccount.shared()?.hasCredentials() ?? false {
-            splitVC.show(
-              NYPLSettingsAccountDetailViewController(
-                account: AccountsManager.shared.currentAccountId
-              ),
-              sender: nil
-            )
-          } else {
-            OETutorialChoiceViewController.showLoginPicker(handler: nil)
-          }
-        }
-      ),
-      OESettingsPrimaryTableItem.init(
-        indexPath: IndexPath.init(row: 0, section: 1),
-        title: "Help",
-        selectionHandler: { (splitVC, tableVC) in
-          let hs = HSHelpStack.instance() as! HSHelpStack
-          hs.showHelp(splitVC)
-        }
-      ),
-      OESettingsPrimaryTableItem.init(
-        indexPath: IndexPath.init(row: 0, section: 2),
-        title: "Acknowledgements",
-        viewController: generateRemoteView(
-          title: "Acknowledgements",
-          url: "http://www.librarysimplified.org/openebooksacknowledgments.html"
-        )
-      ),
-      OESettingsPrimaryTableItem.init(
-        indexPath: IndexPath.init(row: 1, section: 2),
-        title: "User Agreement",
-        viewController: generateRemoteView(
-          title: "User Agreement",
-          url: "http://www.librarysimplified.org/openebookseula.html"
-        )
-      ),
-      OESettingsPrimaryTableItem.init(
-        indexPath: IndexPath.init(row: 2, section: 2),
-        title: "Privacy Policy",
-        viewController: generateRemoteView(
-          title: "Privacy Policy",
-          url: "http://www.librarysimplified.org/oeiprivacy.html"
-        )
-      ),
-      OESettingsPrimaryTableItem.init(
-        indexPath: IndexPath.init(row: 0, section: 3),
-        title: "Developer Settings",
-        viewController: NYPLDeveloperSettingsTableViewController()
-      )
-    ]
+    self.items = []
+    self.itemsMap = [:]
+    self.developerVC = NYPLDeveloperSettingsTableViewController()
     
     // Init info label
     self.infoLabel = UILabel()
@@ -99,10 +43,10 @@ class OESettingsPrimaryTableViewController : UITableViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  var splitVCAncestor: OESettingsSplitViewController? {
+  var splitVCAncestor: NYPLSettingsSplitViewController? {
     var ancestor = self.parent
     while ancestor != nil {
-      guard let splitVC = ancestor as? OESettingsSplitViewController else {
+      guard let splitVC = ancestor as? NYPLSettingsSplitViewController else {
         ancestor = ancestor!.parent
         continue
       }
@@ -129,11 +73,24 @@ class OESettingsPrimaryTableViewController : UITableViewController {
     return cell
   }
   
+  func isDeveloper(path: IndexPath) -> Bool {
+    return isDeveloper(section: path.section)
+  }
+  
+  func isDeveloper(section: Int) -> Bool {
+    if self.shouldShowDeveloperMenuItem {
+      let keys = itemsMap.keys
+      let n = keys.count > 0 ? keys.max()! + 1 : 0
+      return section == n
+    }
+    return false
+  }
+  
   // MARK: UIViewController
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = OEConfiguration.oeShared.backgroundColor
+    self.view.backgroundColor = NYPLConfiguration.shared.backgroundColor
   }
   
   // MARK: UITableViewDelegate
@@ -143,9 +100,14 @@ class OESettingsPrimaryTableViewController : UITableViewController {
       Log.error("SettingsTableView", "Unable to find split view ancestor")
       return
     }
-    for item in self.items {
-      if item.path == indexPath {
-        item.handleItemTouched(splitVC: splitVC, tableVC: self)
+    
+    if isDeveloper(path: indexPath) {
+      splitVC.showDetailViewController(NYPLSettingsPrimaryTableItem.handleVCWrap(self.developerVC), sender: self)
+    } else {
+      for item in self.items {
+        if item.path == indexPath {
+          item.handleItemTouched(splitVC: splitVC, tableVC: self)
+        }
       }
     }
   }
@@ -163,24 +125,29 @@ class OESettingsPrimaryTableViewController : UITableViewController {
     if section == sectionCount - 1 {
       return self.infoLabel
     }
-    return nil
+    return UILabel()
   }
   
   // MARK: UITableViewDataSource
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if isDeveloper(path: indexPath) {
+      return settingsPrimaryTableViewCell(text: "Testing")
+    }
+    
     for item in self.items {
       if item.path == indexPath {
         return settingsPrimaryTableViewCell(text: item.name)
       }
     }
-
+    
     return settingsPrimaryTableViewCell(text: "?")
   }
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-    var n = 3
-    if self.shouldShowDeveloperMenuItem || (OESettings.oeShared.customMainFeedURL != nil) {
+    let keys = itemsMap.keys
+    var n = keys.count > 0 ? keys.max()! + 1 : 0
+    if self.shouldShowDeveloperMenuItem {
       n += 1
     }
     return n
@@ -191,9 +158,9 @@ class OESettingsPrimaryTableViewController : UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if section == 2 {
-      return 3
+    if self.isDeveloper(section: section) {
+      return 1
     }
-    return 1
+    return itemsMap[section] ?? 0
   }
 }

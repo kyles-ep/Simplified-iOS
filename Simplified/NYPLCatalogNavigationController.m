@@ -8,7 +8,6 @@
 #import "NYPLMyBooksNavigationController.h"
 #import "NYPLMyBooksViewController.h"
 #import "NYPLHoldsNavigationController.h"
-#import "NYPLSettingsPrimaryTableViewController.h"
 #import "SimplyE-Swift.h"
 #import "NSString+NYPLStringAdditions.h"
 

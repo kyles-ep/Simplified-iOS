@@ -1,4 +1,4 @@
-class OESettingsPrimaryTableItem {
+class NYPLSettingsPrimaryTableItem {
   let path: IndexPath
   let name: String
   fileprivate let vc: UIViewController?
@@ -24,5 +24,24 @@ class OESettingsPrimaryTableItem {
     } else if handler != nil {
       handler!(splitVC, tableVC)
     }
+  }
+  
+  class func handleVCWrap(_ vc: UIViewController) -> UIViewController {
+    if UIDevice.current.userInterfaceIdiom == .pad {
+      return UINavigationController.init(rootViewController: vc)
+    }
+    return vc
+  }
+  
+  class func generateRemoteView(title: String, url: String) -> UIViewController {
+    let remoteView = RemoteHTMLViewController.init(
+      URL: URL.init(string: url)!,
+      title: title,
+      failureMessage: NSLocalizedString("SettingsConnectionFailureMessage", comment: "")
+    )
+    if UIDevice.current.userInterfaceIdiom == .pad {
+      return UINavigationController.init(rootViewController: remoteView)
+    }
+    return remoteView
   }
 }

@@ -4,7 +4,6 @@
 #import "NYPLMyBooksViewController.h"
 #import "NYPLReaderViewController.h"
 
-#import "NYPLSettingsSplitViewController.h"
 #import "NYPLRootTabBarController.h"
 #import "SimplyE-Swift.h"
 

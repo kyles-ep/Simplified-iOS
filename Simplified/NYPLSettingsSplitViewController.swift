@@ -1,23 +1,26 @@
-class OESettingsSplitViewController : UISplitViewController, UISplitViewControllerDelegate {
+class NYPLSettingsSplitViewController : UISplitViewController, UISplitViewControllerDelegate {
   fileprivate var isFirstLoad: Bool
-  fileprivate let navVC: UINavigationController
   
   init() {
     self.isFirstLoad = true
-    let primaryTableVC = OESettingsPrimaryTableViewController()
-    self.navVC = UINavigationController.init(rootViewController: primaryTableVC)
+    let navVC = UINavigationController.init(rootViewController: NYPLSettingsPrimaryTableViewController())
     super.init(nibName: nil, bundle: nil)
     
     self.delegate = self
-    self.title = OEUtils.LocalizedString("Settings")
+    self.title = NSLocalizedString("Settings", comment: "")
     self.tabBarItem.image = UIImage.init(named: "Settings")
-    self.viewControllers = [self.navVC]
+    self.viewControllers = [navVC]
     self.presentsWithGesture = false
   }
   
   @available(*, unavailable)
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  var primaryTableVC: NYPLSettingsPrimaryTableViewController? {
+    let navVC = self.viewControllers.first as? UINavigationController
+    return navVC?.viewControllers.first as? NYPLSettingsPrimaryTableViewController
   }
   
   // MARK: UIView

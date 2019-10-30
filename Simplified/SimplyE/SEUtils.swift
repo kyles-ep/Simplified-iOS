@@ -35,7 +35,7 @@ class SEUtils {
       masterNavVC?.popToRootViewController(animated: false)
       NYPLRootTabBarController.shared()?.selectedIndex = tabCount - 1
       let tableVC = masterNavVC?.viewControllers.first as? NYPLSettingsPrimaryTableViewController
-      tableVC?.delegate.settingsPrimaryTableViewController(tableVC, didSelect: .account)
+      tableVC?.tableView.selectRow(at: IndexPath.init(row: 0, section: 0), animated: true, scrollPosition: .middle)
     }))
     
     alert.addAction(UIAlertAction.init(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))

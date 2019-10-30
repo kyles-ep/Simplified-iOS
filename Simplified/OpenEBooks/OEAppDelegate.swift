@@ -1,3 +1,5 @@
+import HelpStack
+
 fileprivate let MinimumBackgroundFetchInterval = TimeInterval(60 * 60 * 24)
 
 @UIApplicationMain
@@ -36,7 +38,7 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     NYPLRootTabBarController.shared()?.setCatalogNav(OECatalogNavigationController())
     NYPLRootTabBarController.shared()?.setMyBooksNav(OEMyBooksNavigationController())
     NYPLRootTabBarController.shared()?.setHoldsNav(OEHoldsNavigationController())
-    NYPLRootTabBarController.shared()?.setSettingsSplitView(OESettingsSplitViewController())
+    configSettingsTab()
     
     if OESettings.oeShared.userHasAcceptedEULA {
       if NYPLSettings.shared.userHasSeenWelcomeScreen {
@@ -63,6 +65,65 @@ class OEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     self.beginCheckingForUpdates()
 
     return true;
+  }
+  
+  func configSettingsTab() {
+    guard let splitVC = NYPLRootTabBarController.shared()?.viewControllers?.last as? NYPLSettingsSplitViewController else {
+      Log.error("SEAppDelegate", "Cannot locate settingsSplitViewController")
+      return
+    }
+    splitVC.primaryTableVC?.items = [
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 0, section: 0),
+        title: "Account",
+        selectionHandler: { (splitVC, tableVC) in
+          if NYPLAccount.shared()?.hasCredentials() ?? false {
+            splitVC.show(
+              NYPLSettingsPrimaryTableItem.handleVCWrap(
+                NYPLSettingsAccountDetailViewController(
+                  account: AccountsManager.shared.currentAccountId
+                )
+              ),
+              sender: nil
+            )
+          } else {
+            OETutorialChoiceViewController.showLoginPicker(handler: nil)
+          }
+        }
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 0, section: 1),
+        title: "Help",
+        selectionHandler: { (splitVC, tableVC) in
+          let hs = HSHelpStack.instance() as! HSHelpStack
+          hs.showHelp(splitVC)
+        }
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 0, section: 2),
+        title: "Acknowledgements",
+        viewController: NYPLSettingsPrimaryTableItem.generateRemoteView(
+          title: "Acknowledgements",
+          url: "http://www.librarysimplified.org/openebooksacknowledgments.html"
+        )
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 1, section: 2),
+        title: "User Agreement",
+        viewController: NYPLSettingsPrimaryTableItem.generateRemoteView(
+          title: "User Agreement",
+          url: "http://www.librarysimplified.org/openebookseula.html"
+        )
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 2, section: 2),
+        title: "Privacy Policy",
+        viewController: NYPLSettingsPrimaryTableItem.generateRemoteView(
+          title: "Privacy Policy",
+          url: "http://www.librarysimplified.org/oeiprivacy.html"
+        )
+      )
+    ]
   }
   
   @objc(application:openURL:options:) override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

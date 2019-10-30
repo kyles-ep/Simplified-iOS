@@ -41,11 +41,9 @@
 #import "NYPLMyBooksNavigationController.h"
 #import "NYPLMyBooksViewController.h"
 #import "NYPLHoldsNavigationController.h"
-#import "NYPLSettingsPrimaryTableViewController.h"
 #import "NYPLCatalogNavigationController.h"
 #import "NYPLHoldsViewController.h"
 #import "NYPLCatalogFeedViewController.h"
-#import "NYPLSettingsSplitViewController.h"
 
 // ViewControllers
 #import "NYPLBookDetailViewController.h"

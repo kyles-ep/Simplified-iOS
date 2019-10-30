@@ -7,7 +7,6 @@
 #import "NYPLCatalogFeedViewController.h"
 #import "NYPLRootTabBarController.h"
 #import "NYPLCatalogNavigationController.h"
-#import "NYPLSettingsPrimaryTableViewController.h"
 #import "SimplyE-Swift.h"
 
 #if defined(FEATURE_DRM_CONNECTOR)

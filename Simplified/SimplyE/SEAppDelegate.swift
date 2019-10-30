@@ -41,6 +41,7 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     NYPLRootTabBarController.shared()?.setCatalogNav(SECatalogNavigationController())
     NYPLRootTabBarController.shared()?.setMyBooksNav(SEMyBooksNavigationController())
     NYPLRootTabBarController.shared()?.setHoldsNav(SEHoldsNavigationController())
+    configSettingsTab()
     
     if NYPLSettings.shared.userHasSeenWelcomeScreen {
       self.window!.rootViewController = NYPLRootTabBarController.shared()
@@ -51,5 +52,52 @@ class SEAppDelegate : NYPLAppDelegate, UIApplicationDelegate {
     self.beginCheckingForUpdates()
 
     return true;
+  }
+  
+  fileprivate func configSettingsTab() {
+    guard let splitVC = NYPLRootTabBarController.shared()?.viewControllers?.last as? NYPLSettingsSplitViewController else {
+      Log.error("SEAppDelegate", "Cannot locate settingsSplitViewController")
+      return
+    }
+    splitVC.primaryTableVC?.items = [
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 0, section: 0),
+        title: NSLocalizedString("Accounts", comment: ""),
+        viewController: NYPLSettingsPrimaryTableItem.handleVCWrap(
+          NYPLSettingsAccountsTableViewController.init(
+            accounts: NYPLSettings.shared.settingsAccountsList
+          )
+        )
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 0, section: 1),
+        title: NSLocalizedString("AboutApp", comment: ""),
+        viewController: NYPLSettingsPrimaryTableItem.generateRemoteView(
+          title: NSLocalizedString("AboutApp", comment: ""),
+          url: NYPLSettings.NYPLAcknowledgementsURLString
+        )
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 1, section: 1),
+        title: NSLocalizedString("EULA", comment: ""),
+        viewController: NYPLSettingsPrimaryTableItem.generateRemoteView(
+          title: NSLocalizedString("EULA", comment: ""),
+          url: NYPLSettings.NYPLUserAgreementURLString
+        )
+      ),
+      NYPLSettingsPrimaryTableItem.init(
+        indexPath: IndexPath.init(row: 2, section: 1),
+        title: NSLocalizedString("SoftwareLicenses", comment: ""),
+        viewController: NYPLSettingsPrimaryTableItem.handleVCWrap(
+          BundledHTMLViewController.init(
+            fileURL: Bundle.init(for: NYPLSettings.self).url(
+              forResource: "software-licenses",
+              withExtension: "html"
+            )!,
+            title: NSLocalizedString("SoftwareLicenses", comment: "")
+          )
+        )
+      )
+    ]
   }
 }
