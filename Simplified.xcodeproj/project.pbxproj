@@ -166,6 +166,7 @@
 		84B7A3481B84E8FE00584FB2 /* OpenDyslexic3-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84B7A3451B84E8FE00584FB2 /* OpenDyslexic3-Regular.ttf */; };
 		84FCD2611B7BA79200BFEDD9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FCD2601B7BA79200BFEDD9 /* CoreLocation.framework */; };
 		8C40D6A72375FF8B006EA63B /* NYPLProblemDocumentCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C40D6A62375FF8B006EA63B /* NYPLProblemDocumentCacheManager.swift */; };
+		8C67254C23F48F4E00708BFE /* NSData+NYPLDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C67254A23F48F4E00708BFE /* NSData+NYPLDataAdditions.m */; };
 		8C835DD5234D0B900050A18D /* NYPLFacetBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C835DD4234D0B900050A18D /* NYPLFacetBarView.swift */; };
 		8CC26F832370C1DF0000D8E1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC26F822370C1DF0000D8E1 /* Account.swift */; };
 		8CE9C471237F84820072E964 /* NYPLBookDetailsProblemDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE9C470237F84820072E964 /* NYPLBookDetailsProblemDocumentViewController.swift */; };
@@ -537,6 +538,8 @@
 		84B7A3451B84E8FE00584FB2 /* OpenDyslexic3-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenDyslexic3-Regular.ttf"; sourceTree = "<group>"; };
 		84FCD2601B7BA79200BFEDD9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8C40D6A62375FF8B006EA63B /* NYPLProblemDocumentCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYPLProblemDocumentCacheManager.swift; sourceTree = "<group>"; };
+		8C67254A23F48F4E00708BFE /* NSData+NYPLDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+NYPLDataAdditions.m"; sourceTree = "<group>"; };
+		8C67254B23F48F4E00708BFE /* NSData+NYPLDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+NYPLDataAdditions.h"; sourceTree = "<group>"; };
 		8C835DD4234D0B900050A18D /* NYPLFacetBarView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NYPLFacetBarView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8CC26F822370C1DF0000D8E1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		8CE9C470237F84820072E964 /* NYPLBookDetailsProblemDocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYPLBookDetailsProblemDocumentViewController.swift; sourceTree = "<group>"; };
@@ -718,28 +721,30 @@
 		110AF8891961D66C004887C3 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5DD567B422B97344001F0C83 /* Data+Base64.swift */,
+				8C67254B23F48F4E00708BFE /* NSData+NYPLDataAdditions.h */,
+				8C67254A23F48F4E00708BFE /* NSData+NYPLDataAdditions.m */,
 				11396FB7193D289100E16EE8 /* NSDate+NYPLDateAdditions.h */,
 				11396FB8193D289100E16EE8 /* NSDate+NYPLDateAdditions.m */,
 				119BEB87198C43A600121439 /* NSString+NYPLStringAdditions.h */,
 				119BEB88198C43A600121439 /* NSString+NYPLStringAdditions.m */,
-				114B7F141A3644CF00B8582B /* NYPLTenPrintCoverView+NYPLImageAdditions.h */,
-				114B7F151A3644CF00B8582B /* NYPLTenPrintCoverView+NYPLImageAdditions.m */,
-				11A14DF21A1BF94F00D6C510 /* UIColor+NYPLColorAdditions.h */,
-				11A14DF31A1BF94F00D6C510 /* UIColor+NYPLColorAdditions.m */,
-				11E0208B197F05D9009DEA93 /* UIFont+NYPLSystemFontOverride.h */,
-				11E0208C197F05D9009DEA93 /* UIFont+NYPLSystemFontOverride.m */,
-				1107835C19816E3D0071AB1E /* UIView+NYPLViewAdditions.h */,
-				1107835D19816E3D0071AB1E /* UIView+NYPLViewAdditions.m */,
 				085640CC1BB99FC30088BDBF /* NSURL+NYPLURLAdditions.h */,
 				085640CD1BB99FC30088BDBF /* NSURL+NYPLURLAdditions.m */,
 				085D31DD1BE3CD3C007F7672 /* NSURLRequest+NYPLURLRequestAdditions.h */,
 				085D31DE1BE3CD3C007F7672 /* NSURLRequest+NYPLURLRequestAdditions.m */,
-				081387551BC574DA003DEA6A /* UILabel+NYPLAppearanceAdditions.h */,
-				081387561BC574DA003DEA6A /* UILabel+NYPLAppearanceAdditions.m */,
+				114B7F141A3644CF00B8582B /* NYPLTenPrintCoverView+NYPLImageAdditions.h */,
+				114B7F151A3644CF00B8582B /* NYPLTenPrintCoverView+NYPLImageAdditions.m */,
+				5DD567AE22B95A30001F0C83 /* String+MD5.swift */,
 				081387581BC5767F003DEA6A /* UIButton+NYPLAppearanceAdditions.h */,
 				081387591BC5767F003DEA6A /* UIButton+NYPLAppearanceAdditions.m */,
-				5DD567B422B97344001F0C83 /* Data+Base64.swift */,
-				5DD567AE22B95A30001F0C83 /* String+MD5.swift */,
+				11A14DF21A1BF94F00D6C510 /* UIColor+NYPLColorAdditions.h */,
+				11A14DF31A1BF94F00D6C510 /* UIColor+NYPLColorAdditions.m */,
+				11E0208B197F05D9009DEA93 /* UIFont+NYPLSystemFontOverride.h */,
+				11E0208C197F05D9009DEA93 /* UIFont+NYPLSystemFontOverride.m */,
+				081387551BC574DA003DEA6A /* UILabel+NYPLAppearanceAdditions.h */,
+				081387561BC574DA003DEA6A /* UILabel+NYPLAppearanceAdditions.m */,
+				1107835C19816E3D0071AB1E /* UIView+NYPLViewAdditions.h */,
+				1107835D19816E3D0071AB1E /* UIView+NYPLViewAdditions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1305,7 +1310,7 @@
 				TargetAttributes = {
 					2D2B47711D08F807007F7764 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1130;
 						TestTargetID = A823D80C192BABA400B55DE2;
 					};
 					A823D80C192BABA400B55DE2 = {
@@ -1642,6 +1647,7 @@
 				113DB8A719C24E54004E1154 /* NYPLIndeterminateProgressView.m in Sources */,
 				119BEB89198C43A600121439 /* NSString+NYPLStringAdditions.m in Sources */,
 				E6B6E76F1F6859A4007EE361 /* NYPLKeychainManager.swift in Sources */,
+				8C67254C23F48F4E00708BFE /* NSData+NYPLDataAdditions.m in Sources */,
 				5D7CF8B922C3FC06007CAA34 /* NYPLBugsnagLogs.swift in Sources */,
 				A499BF261B39EFC7002F8B8B /* NYPLOPDSEntryGroupAttributes.m in Sources */,
 				1196F75B1970727C00F62670 /* NYPLMyBooksDownloadCenter.m in Sources */,
@@ -1716,6 +1722,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1743,6 +1750,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

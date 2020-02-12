@@ -13,7 +13,7 @@
 #import "NYPLLinearView.h"
 #import "NYPLMyBooksDownloadCenter.h"
 #import "NYPLReachability.h"
-
+#import "NSData+NYPLDataAdditions.h"
 #import "NYPLAccountSignInViewController.h"
 #import "NYPLSettingsEULAViewController.h"
 #import "NYPLRootTabBarController.h"
@@ -866,6 +866,8 @@ completionHandler:(void (^)(void))handler
          NSError *pDocError = nil;
          UserProfileDocument *pDoc = [UserProfileDocument fromData:data error:&pDocError];
          if (!pDoc) {
+           NYPLLOG_F(@"Data for pDoc error: %@", [NSString stringWithUTF8String:[data bytes]]);
+           NYPLLOG_F(@"Data for pDoc error: %@", [data hexString]);
            [NYPLBugsnagLogs reportUserProfileDocumentErrorWithError:pDocError];
            [self authorizationAttemptDidFinish:NO error:[NSError errorWithDomain:@"NYPLAuth" code:20 userInfo:@{ @"message":@"Error parsing user profile doc" }]];
            return;

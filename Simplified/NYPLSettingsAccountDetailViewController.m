@@ -14,7 +14,7 @@
 #import "NYPLConfiguration.h"
 #import "NYPLLinearView.h"
 #import "NYPLMyBooksDownloadCenter.h"
-
+#import "NSData+NYPLDataAdditions.h"
 #import "NYPLSettingsEULAViewController.h"
 #import "NYPLRootTabBarController.h"
 #import "UIFont+NYPLSystemFontOverride.h"
@@ -415,6 +415,8 @@ double const requestTimeoutInterval = 25.0;
        NSError *pDocError = nil;
        UserProfileDocument *pDoc = [UserProfileDocument fromData:data error:&pDocError];
        if (!pDoc) {
+         NYPLLOG_F(@"Data for pDoc error: %@", [NSString stringWithUTF8String:[data bytes]]);
+         NYPLLOG_F(@"Data for pDoc error: %@", [data hexString]);
          [NYPLBugsnagLogs reportUserProfileDocumentErrorWithError:pDocError];
          [self showLogoutAlertWithError:pDocError responseCode:statusCode];
          [self removeActivityTitle];
@@ -539,6 +541,8 @@ double const requestTimeoutInterval = 25.0;
         NSError *pDocError = nil;
         UserProfileDocument *pDoc = [UserProfileDocument fromData:data error:&pDocError];
         if (!pDoc) {
+          NYPLLOG_F(@"Data for pDoc error: %@", [NSString stringWithUTF8String:[data bytes]]);
+          NYPLLOG_F(@"Data for pDoc error: %@", [data hexString]);
           [NYPLBugsnagLogs reportUserProfileDocumentErrorWithError:pDocError];
           [self authorizationAttemptDidFinish:NO error:[NSError errorWithDomain:@"NYPLAuth" code:20 userInfo:@{ @"message":@"Error parsing user profile doc" }]];
           return;
